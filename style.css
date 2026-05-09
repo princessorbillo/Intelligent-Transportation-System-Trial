@@ -51,8 +51,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 /* ===== PHONE FRAME ===== */
 .phone-container{flex:1;display:flex;align-items:center;justify-content:center;perspective:1000px}
-.phone-frame{width:var(--phone-w);height:var(--phone-h);background:#000;border-radius:48px;position:relative;box-shadow:0 0 0 2px #333,0 0 0 6px #1a1a1a,0 20px 60px rgba(0,0,0,.6),0 0 80px rgba(20,184,166,.08);overflow:hidden;animation:phoneIn .8s ease-out}
-@keyframes phoneIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.phone-frame{width:var(--phone-w);height:var(--phone-h);background:#000;border-radius:48px;position:relative;box-shadow:0 0 0 2px #333,0 0 0 6px #1a1a1a,0 20px 60px rgba(0,0,0,.6),0 0 80px rgba(20,184,166,.08);overflow:hidden;animation:phoneIn .8s ease-out forwards;transform:scale(0.82)}
+@keyframes phoneIn{from{opacity:0;transform:scale(.75) translateY(20px)}to{opacity:1;transform:scale(0.82) translateY(0)}}
 .phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:160px;height:34px;background:#000;border-radius:0 0 20px 20px;z-index:20;display:flex;align-items:center;justify-content:center}
 .notch-camera{width:12px;height:12px;border-radius:50%;background:#1a1a2e;border:2px solid #2a2a3a}
 .status-bar{position:absolute;top:0;left:0;right:0;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:15;color:#fff;font-size:.75rem;font-weight:600}

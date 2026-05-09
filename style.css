@@ -468,5 +468,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .dark-mode .ranking-item:hover, .dark-mode .gray-container:hover { border-color: var(--accent) !important; background: #1a3a2e !important; }
 .dark-mode .reward-btn:hover { border-color: var(--accent) !important; background: #1a3a2e !important; }
 
+.hover-green { transition: border-color 0.2s, color 0.2s; cursor: pointer; }
 .hover-green:hover { border-color: var(--accent) !important; }
 

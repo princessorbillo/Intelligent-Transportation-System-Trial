@@ -729,17 +729,17 @@
           </div>
           <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-top:0px;">Smart Commute Dashboard</div>
           <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;scrollbar-width:none">
-            <div class="gray-container" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center">
+            <div class="gray-container hover-green" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center;border:1.5px solid transparent">
               <div style="color:var(--accent2);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-cloud-sun"></i></div>
               <div style="font-size:.8rem;font-weight:700;color:#111">Partly Cloudy</div>
               <div style="font-size:.65rem;color:#888">No rain expected</div>
             </div>
-            <div class="gray-container" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center">
+            <div class="gray-container hover-green" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center;border:1.5px solid transparent">
               <div style="color:#f59e0b;font-size:1.5rem;margin-bottom:6px"><i class="fas fa-triangle-exclamation"></i></div>
               <div style="font-size:.8rem;font-weight:700;color:#111">2 Incidents</div>
               <div style="font-size:.65rem;color:#888">Near your routes</div>
             </div>
-            <div class="gray-container" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center">
+            <div class="gray-container hover-green" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center;border:1.5px solid transparent">
               <div style="color:var(--accent);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-car-side"></i></div>
               <div style="font-size:.8rem;font-weight:700;color:#111">Sedan Cleared</div>
               <div style="font-size:.65rem;color:#888">No deep floods</div>
@@ -749,18 +749,18 @@
         </div>
         <div style="flex:1;overflow-y:auto;padding-bottom:100px;scrollbar-width:none;">
           <div class="route-options" style="padding:0 16px">
-          <div class="route-option gray-container" onclick="navigateTo('routes-nav')">
+          <div class="route-option gray-container hover-green" onclick="navigateTo('routes-nav')" style="border:1.5px solid transparent">
             <div class="route-option-icon"><i class="fas fa-road"></i></div>
             <div class="route-option-info"><h4>Manila → Makati</h4><p>Via main road • 10.1 km</p></div>
             <span class="route-option-time">45 min</span>
           </div>
-          <div class="route-option gray-container" onclick="navigateTo('routes-nav')">
+          <div class="route-option gray-container hover-green" onclick="navigateTo('routes-nav')" style="border:1.5px solid transparent">
             <div class="route-option-icon"><i class="fas fa-road"></i></div>
             <div class="route-option-info"><h4>QC → Ortigas</h4><p>Via alternate • 12.3 km</p></div>
             <span class="route-option-time">1h 10m</span>
           </div>
         </div>
-        <button class="m-btn m-btn-outline gray-container" style="margin:16px 24px;width:calc(100% - 48px);" onclick="navigateTo('routes')">
+        <button class="m-btn m-btn-outline gray-container hover-green" style="margin:16px 24px;width:calc(100% - 48px);border:1.5px solid transparent" onclick="navigateTo('routes')">
           <i class="fas fa-map" style="margin-right:8px;color:var(--accent)"></i> Open Full Map
         </button>
         </div>

@@ -236,23 +236,26 @@
       ];
       const posClass = (i) => i === 0 ? "gold" : i === 1 ? "silver" : "bronze";
       return `
-      <div class="m-screen" style="background:#fafafa;position:relative">
-        <div class="home-greeting" style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;display:flex;align-items:flex-start;gap:12px;padding-top:16px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
-          <button onclick="document.getElementById('mSideMenu').classList.add('open')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-bars"></i></button>
-          <div style="flex:1">
-            <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
-            <h1 style="margin-top:0;color:#fff">Good morning, User!</h1>
+      <div class="m-screen" style="background:#fafafa;position:relative;height:100%;overflow:hidden;display:flex;flex-direction:column;">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div class="home-greeting" style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <button onclick="document.getElementById('mSideMenu').classList.add('open')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-bars"></i></button>
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <h1 style="margin-top:0;color:#fff">Good morning, User!</h1>
+            </div>
+            <button onclick="navigateTo('notifications')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px;margin-top:4px"><i class="fas fa-bell"></i></button>
           </div>
-          <button onclick="navigateTo('notifications')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px;margin-top:4px"><i class="fas fa-bell"></i></button>
         </div>
         
+        <div style="flex:1;overflow-y:auto;padding-bottom:100px;scrollbar-width:none;">
         <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center">
           <span>Top Contributors</span>
           <span style="color:var(--accent);cursor:pointer;text-transform:none;letter-spacing:0" onclick="navigateTo('ranking')">View All</span>
         </div>
         <div class="ranking-list" style="padding:0 16px;margin-bottom:16px">
           ${users.map((u, i) => `
-            <div class="ranking-item" style="padding:10px;margin-bottom:6px">
+            <div class="ranking-item gray-container" style="padding:10px;margin-bottom:6px">
               <div class="ranking-pos ${posClass(i)}" style="width:24px;height:24px;font-size:.7rem">${i + 1}</div>
               <div class="ranking-info" style="margin-left:10px"><h4>${u.name}</h4></div>
               <div class="ranking-score" style="font-size:.75rem">${u.score.toLocaleString()} pts</div>
@@ -261,7 +264,7 @@
         </div>
 
         <div style="padding:8px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Community Feed</div>
-        <div class="community-post">
+        <div class="community-post gray-container">
           <img src="assets/community1.png" alt="Community Post" class="community-post-img">
           <div class="community-post-body">
             <div class="community-post-title">Clean road improvements on Main St</div>
@@ -273,7 +276,7 @@
             </div>
           </div>
         </div>
-        <div class="community-post">
+        <div class="community-post gray-container">
           <img src="assets/community2.png" alt="Community Post" class="community-post-img">
           <div class="community-post-body">
             <div class="community-post-title">Pothole reported on Elm Avenue</div>
@@ -284,6 +287,7 @@
               <button class="community-action"><i class="far fa-share-from-square"></i></button>
             </div>
           </div>
+        </div>
         </div>
       </div>`;
     },
@@ -302,28 +306,38 @@
       </div>`,
 
     routes: () => `
-      <div class="m-screen" style="background:#fff">
-        <div class="routes-header"><h2>Routes</h2><button style="background:none;border:none;font-size:1.1rem;color:#888;cursor:pointer" onclick="navigateTo('routes-search')"><i class="fas fa-magnifying-glass"></i></button></div>
-        <div class="routes-tabs">
-          <button class="routes-tab active">Home</button>
-          <button class="routes-tab">Work</button>
-          <button class="routes-tab">Lorem</button>
-        </div>
-        <div class="routes-map">
-          <img src="assets/map.png" alt="Map">
-          <div class="map-pin user"></div>
-          <div class="map-pin dest"></div>
-        </div>
-        <div class="route-options">
-          <div class="route-option" onclick="navigateTo('routes-nav')">
-            <div class="route-option-icon"><i class="fas fa-road"></i></div>
-            <div class="route-option-info"><h4>EDSA - Stuyversant</h4><p>Via main road • 10.1 km</p></div>
-            <span class="route-option-time">25 min</span>
+      <div class="m-screen" style="background:#f5f7f5;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <button onclick="navigateTo('planner')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-arrow-left"></i></button>
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <h1 style="margin-top:0;color:#fff">Routes</h1>
+            </div>
+            <button style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px;margin-top:4px" onclick="navigateTo('routes-search')"><i class="fas fa-magnifying-glass"></i></button>
           </div>
-          <div class="route-option" onclick="navigateTo('routes-nav')">
-            <div class="route-option-icon"><i class="fas fa-road"></i></div>
-            <div class="route-option-info"><h4>C5 - Lafayette Ave</h4><p>Via alternate • 12.3 km</p></div>
-            <span class="route-option-time">32 min</span>
+          <div class="routes-tabs gray-container" style="margin:-20px 16px 8px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05);position:relative;z-index:20;">
+            <button class="routes-tab active" style="background:transparent!important">Home</button>
+            <button class="routes-tab" style="background:transparent!important">Work</button>
+          </div>
+          <div class="routes-map">
+            <img src="assets/map.png" alt="Map">
+            <div class="map-pin user"></div>
+            <div class="map-pin dest"></div>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding-bottom:100px;scrollbar-width:none;">
+          <div class="route-options" style="padding:16px;">
+            <div class="route-option gray-container" onclick="navigateTo('routes-nav')" style="margin-bottom:12px">
+              <div class="route-option-icon"><i class="fas fa-road"></i></div>
+              <div class="route-option-info"><h4>EDSA - Stuyversant</h4><p>Via main road • 10.1 km</p></div>
+              <span class="route-option-time">25 min</span>
+            </div>
+            <div class="route-option gray-container" onclick="navigateTo('routes-nav')">
+              <div class="route-option-icon"><i class="fas fa-road"></i></div>
+              <div class="route-option-info"><h4>C5 - Lafayette Ave</h4><p>Via alternate • 12.3 km</p></div>
+              <span class="route-option-time">32 min</span>
+            </div>
           </div>
         </div>
       </div>`,
@@ -331,23 +345,32 @@
     "routes-search": () => ``,
 
     "routes-nav": () => `
-      <div class="m-screen" style="background:#fff;padding-bottom:0">
-        <div class="nav-direction">
+      <div class="m-screen" style="background:#fff;padding-bottom:0;display:flex;flex-direction:column;height:100%;">
+        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05);position:relative;z-index:20;">
+          <div style="display:flex;align-items:center;">
+            <i class="fas fa-arrow-left" style="cursor:pointer;font-size:1.4rem" onclick="navigateTo('planner')"></i>
+            <h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#fff;margin:0;margin-left:12px;">Navigation</h2>
+          </div>
+        </div>
+        <div class="nav-direction" style="margin-top:-16px;position:relative;z-index:10;border-radius:0 0 20px 20px;padding-top:24px;">
           <div class="nav-arrow"><i class="fas fa-arrow-up"></i></div>
           <div class="nav-text"><h3>67 m</h3><p>Lorem Ipsum Street</p></div>
           <div class="nav-badge">Next ›</div>
         </div>
-        <div class="nav-map">
-          <img src="assets/map.png" alt="Navigation Map">
+        <div class="nav-map" style="flex:1;height:auto;position:relative;overflow:hidden">
+          <img src="assets/map.png" alt="Navigation Map" style="width:100%;height:calc(100% + 80px);margin-top:-80px;object-fit:cover;">
           <div class="map-pin user" style="top:60%;left:40%"></div>
           <div class="map-pin dest" style="top:25%;right:20%"></div>
-        </div>
-        <div class="nav-footer">
-          <div class="nav-eta"><h3>67 min</h3><p>67 km • 10:51</p></div>
-          <div class="nav-actions">
-            <button class="nav-action-btn" onclick="navigateTo('routes-report')"><i class="fas fa-flag"></i></button>
-            <button class="nav-action-btn"><i class="fas fa-volume-high"></i></button>
-            <button class="nav-action-btn" onclick="navigateTo('planner')"><i class="fas fa-times"></i></button>
+          <div class="nav-footer gray-container" style="position:absolute;bottom:0;left:0;right:0;padding:20px;padding-bottom:30px;border-radius:20px 20px 0 0;box-shadow:0 -4px 12px rgba(0,0,0,0.1);z-index:10;display:flex;justify-content:space-between;align-items:center;">
+            <div class="nav-eta" style="color:#111">
+              <h3 style="margin:0;font-size:1.4rem;font-weight:700">67 min</h3>
+              <p style="margin:4px 0 0;font-size:.8rem;color:#888">67 km • 10:51</p>
+            </div>
+            <div class="nav-actions" style="display:flex;gap:12px;">
+              <button class="nav-action-btn" style="width:40px;height:40px;border-radius:12px;border:1.5px solid #ddd;background:#fff;color:#555;font-size:1.1rem;cursor:pointer" onclick="navigateTo('routes-report')"><i class="fas fa-flag"></i></button>
+              <button class="nav-action-btn" style="width:40px;height:40px;border-radius:12px;border:1.5px solid #ddd;background:#fff;color:#555;font-size:1.1rem;cursor:pointer"><i class="fas fa-volume-high"></i></button>
+              <button class="nav-action-btn" style="width:40px;height:40px;border-radius:12px;border:1.5px solid #ddd;background:#fff;color:#555;font-size:1.1rem;cursor:pointer" onclick="navigateTo('planner')"><i class="fas fa-times"></i></button>
+            </div>
           </div>
         </div>
       </div>`,
@@ -423,11 +446,24 @@
       </div>`,
 
     "my-reports": () => `
-      <div class="m-screen" style="background:#fafafa">
-        <button class="m-back" onclick="navigateTo('home')"><i class="fas fa-chevron-left"></i> Back</button>
-        <div style="padding:0 24px 16px"><h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#111">My Contributions</h2></div>
-        
-        <div style="margin:0 16px 12px;padding:16px;background:#fff;border-radius:12px;border:1.5px solid #eee">
+      <div class="m-screen" style="background:#fafafa;display:flex;flex-direction:column;height:100%;">
+        <div style="flex-shrink:0;">
+          <button class="m-back" onclick="navigateTo('home')" style="border:none;background:transparent;padding:16px 24px;font-size:.9rem;color:#555;cursor:pointer"><i class="fas fa-chevron-left" style="margin-right:8px"></i> Back</button>
+          <div style="padding:0 24px 16px;display:flex;justify-content:space-between;align-items:center;">
+            <h2 style="font-family:var(--font-display);margin:0;font-size:1.3rem;font-weight:700;color:#111">My Contributions</h2>
+            <div style="position:relative;">
+              <i class="fas fa-filter" style="cursor:pointer;color:var(--accent);font-size:1.1rem" onclick="document.getElementById('contrib-filter').style.display = document.getElementById('contrib-filter').style.display === 'none' ? 'block' : 'none'"></i>
+              <div id="contrib-filter" style="display:none;position:absolute;top:100%;right:0;background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);padding:8px 0;min-width:140px;z-index:50;margin-top:10px;color:#333;">
+                <div style="padding:10px 16px;font-size:.85rem;cursor:pointer;border-bottom:1px solid #f0f0f0">By Date</div>
+                <div style="padding:10px 16px;font-size:.85rem;cursor:pointer;border-bottom:1px solid #f0f0f0">Resolved</div>
+                <div style="padding:10px 16px;font-size:.85rem;cursor:pointer;border-bottom:1px solid #f0f0f0">Pending</div>
+                <div style="padding:10px 16px;font-size:.85rem;cursor:pointer">Denied</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding-bottom:100px;">
+        <div class="gray-container hover-green" style="margin:0 16px 12px;padding:16px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;transition:all 0.2s">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px">
             <span style="font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">Resolved</span>
             <span style="font-size:.7rem;color:#888">Oct 12, 2024</span>
@@ -436,7 +472,7 @@
           <p style="margin:0;font-size:.8rem;color:#666">Reported knee-deep flood at Taft Avenue. 20 commuters verified.</p>
         </div>
         
-        <div style="margin:0 16px 12px;padding:16px;background:#fff;border-radius:12px;border:1.5px solid #eee">
+        <div class="gray-container hover-green" style="margin:0 16px 12px;padding:16px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;transition:all 0.2s">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px">
             <span style="font-size:.7rem;font-weight:700;color:#f59e0b;text-transform:uppercase">Pending Review</span>
             <span style="font-size:.7rem;color:#888">Oct 14, 2024</span>
@@ -445,7 +481,7 @@
           <p style="margin:0;font-size:.8rem;color:#666">Two-vehicle collision blocking the left lane on EDSA Ayala Southbound.</p>
         </div>
         
-        <div style="margin:0 16px 12px;padding:16px;background:#fff;border-radius:12px;border:1.5px solid #eee">
+        <div class="gray-container hover-green" style="margin:0 16px 12px;padding:16px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;transition:all 0.2s">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px">
             <span style="font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase">Resolved</span>
             <span style="font-size:.7rem;color:#888">Oct 10, 2024</span>
@@ -453,43 +489,53 @@
           <h4 style="margin:0 0 4px;font-size:.9rem;color:#111">Road Hazard</h4>
           <p style="margin:0;font-size:.8rem;color:#666">Deep pothole reported near the overpass. City engineers notified.</p>
         </div>
+        </div>
       </div>`,
 
     notifications: () => `
-      <div class="m-screen" style="background:#fafafa">
-        <button class="m-back" onclick="navigateTo('home')"><i class="fas fa-chevron-left"></i> Back</button>
-        <div style="padding:0 24px 16px"><h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#111">Notification Center</h2></div>
-        
+      <div class="m-screen" style="background:#f5f7f5;height:100%;display:flex;flex-direction:column">
+        <div style="flex-shrink:0">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <button onclick="navigateTo('home')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-arrow-left"></i></button>
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <h1 style="margin-top:0;color:#fff;font-size:1.5rem">Notification Center</h1>
+            </div>
+            <div style="background:rgba(255,255,255,0.2);padding:6px 10px;border-radius:12px;font-size:.7rem;font-weight:600;cursor:pointer;margin-top:6px;transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">Mark all as Read</div>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding-bottom:100px;scrollbar-width:none;padding-top:16px;">
         <div style="padding:0 16px; display:flex; flex-direction:column; gap:10px; margin-bottom: 20px;">
-          <div style="padding:14px; background:#fff; border-radius:12px; border:1.5px solid #eee; display:flex; gap:12px; align-items:center; cursor:pointer;" onclick="navigateTo('notif-passable')">
+          <div class="gray-container hover-green" style="padding:14px; border-radius:12px; display:flex; gap:12px; align-items:center; cursor:pointer; transition:all 0.2s;" onclick="navigateTo('notif-passable')">
             <div style="width:40px; height:40px; border-radius:10px; background:rgba(20,184,166,.2); color:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;"><i class="fas fa-bell"></i></div>
             <div style="flex:1"><h4 style="margin:0; font-size:.9rem; color:#111">Road Incident Ahead</h4><p style="margin:2px 0 0; font-size:.75rem; color:#666">Road remains passable. Tap to view.</p></div>
             <div style="color:#aaa; font-size:0.7rem;">Now</div>
           </div>
           
-          <div style="padding:14px; background:#fff; border-radius:12px; border:1.5px solid #eee; display:flex; gap:12px; align-items:center; cursor:pointer;" onclick="navigateTo('notif-danger')">
+          <div class="gray-container hover-green" style="padding:14px; border-radius:12px; display:flex; gap:12px; align-items:center; cursor:pointer; transition:all 0.2s;" onclick="navigateTo('notif-danger')">
             <div style="width:40px; height:40px; border-radius:10px; background:rgba(239,68,68,.2); color:#ef4444; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;"><i class="fas fa-bell"></i></div>
             <div style="flex:1"><h4 style="margin:0; font-size:.9rem; color:#111">Road Not Passable</h4><p style="margin:2px 0 0; font-size:.75rem; color:#666">Avoid Taft Ave due to flood.</p></div>
             <div style="color:#aaa; font-size:0.7rem;">2m ago</div>
           </div>
 
-          <div style="padding:14px; background:#fff; border-radius:12px; border:1.5px solid #eee; display:flex; gap:12px; align-items:center; cursor:pointer;" onclick="navigateTo('notif-htd')">
+          <div class="gray-container hover-green" style="padding:14px; border-radius:12px; display:flex; gap:12px; align-items:center; cursor:pointer; transition:all 0.2s;" onclick="navigateTo('notif-htd')">
             <div style="width:40px; height:40px; border-radius:10px; background:rgba(245,158,11,.2); color:#f59e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;"><i class="fas fa-traffic-light"></i></div>
             <div style="flex:1"><h4 style="margin:0; font-size:.9rem; color:#111">Heavy Traffic Detected</h4><p style="margin:2px 0 0; font-size:.75rem; color:#666">Expect delays on current route.</p></div>
             <div style="color:#aaa; font-size:0.7rem;">15m ago</div>
           </div>
           
-          <div style="padding:14px; background:#fff; border-radius:12px; border:1.5px solid #eee; display:flex; gap:12px; align-items:center; cursor:pointer;" onclick="navigateTo('alert-passable')">
+          <div class="gray-container hover-green" style="padding:14px; border-radius:12px; display:flex; gap:12px; align-items:center; cursor:pointer; transition:all 0.2s;" onclick="navigateTo('alert-passable')">
             <div style="width:40px; height:40px; border-radius:10px; background:rgba(20,184,166,.2); color:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;"><i class="fas fa-circle-check"></i></div>
             <div style="flex:1"><h4 style="margin:0; font-size:.9rem; color:#111">Alert: Passable</h4><p style="margin:2px 0 0; font-size:.75rem; color:#666">Community verified road is clear.</p></div>
             <div style="color:#aaa; font-size:0.7rem;">1h ago</div>
           </div>
 
-          <div style="padding:14px; background:#fff; border-radius:12px; border:1.5px solid #eee; display:flex; gap:12px; align-items:center; cursor:pointer;" onclick="navigateTo('alert-danger')">
+          <div class="gray-container hover-green" style="padding:14px; border-radius:12px; display:flex; gap:12px; align-items:center; cursor:pointer; transition:all 0.2s;" onclick="navigateTo('alert-danger')">
             <div style="width:40px; height:40px; border-radius:10px; background:rgba(239,68,68,.2); color:#ef4444; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;"><i class="fas fa-circle-exclamation"></i></div>
             <div style="flex:1"><h4 style="margin:0; font-size:.9rem; color:#111">Alert: Danger</h4><p style="margin:2px 0 0; font-size:.75rem; color:#666">Hazard verified by users.</p></div>
             <div style="color:#aaa; font-size:0.7rem;">2h ago</div>
           </div>
+        </div>
         </div>
       </div>`,
 
@@ -526,57 +572,73 @@
       </div>`,
 
     ranking: () => `
-      <div class="m-screen" style="background:#fafafa">
-        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding:24px 20px 40px;color:#fff;border-radius:0 0 24px 24px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
-          <div style="font-size:1.2rem;font-weight:700;margin-bottom:16px;text-align:left"><i class="fas fa-arrow-left" style="cursor:pointer;margin-right:12px" onclick="navigateTo('home')"></i> My Points</div>
-          <div style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2.5rem;color:#fcd34d;box-shadow:0 0 20px rgba(252,211,77,0.4)">
-            <i class="fas fa-star"></i>
+      <div class="m-screen" style="background:#fff;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div style="margin-top:-54px;padding-top:70px;padding-bottom:60px;padding-left:20px;padding-right:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:0 0 24px 24px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
+            <div style="font-size:1.2rem;font-weight:700;margin-bottom:16px;text-align:left;display:flex;align-items:center"><i class="fas fa-arrow-left" style="cursor:pointer;margin-right:12px;font-size:1.4rem" onclick="navigateTo('home')"></i> My Points</div>
+            <div style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2.5rem;color:#fcd34d;box-shadow:0 0 20px rgba(252,211,77,0.4)">
+              <i class="fas fa-star"></i>
+            </div>
+            <div style="font-size:2.5rem;font-weight:800;letter-spacing:-1px;font-family:var(--font-display)">500</div>
+            <div style="font-size:.85rem;opacity:0.9">Total Points Accumulated</div>
           </div>
-          <div style="font-size:2.5rem;font-weight:800;letter-spacing:-1px;font-family:var(--font-display)">1,420</div>
-          <div style="font-size:.85rem;opacity:0.9">Total Points Accumulated</div>
+          
+          <div style="padding:0 20px;margin-top:-45px;position:relative;z-index:2">
+            <div class="gray-container" style="border-radius:16px;padding:16px;box-shadow:0 4px 15px rgba(0,0,0,0.05)">
+               <div style="font-size:.75rem;color:#555;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+                 <span>Redeem Rewards</span>
+               </div>
+               <div style="display:flex;justify-content:space-between;gap:8px">
+                  <div class="reward-btn white-card" style="flex:1;text-align:center;padding:12px 4px;border-radius:12px;cursor:pointer">
+                     <i class="fas fa-mobile-screen-button" style="color:var(--blue);font-size:1.4rem;margin-bottom:8px"></i>
+                     <div style="font-size:.7rem;font-weight:700;color:#111">Mobile Load</div>
+                     <div style="font-size:.6rem;color:var(--accent2);margin-top:4px;font-weight:700">See Offers <i class="fas fa-arrow-right"></i></div>
+                  </div>
+                  <div class="reward-btn white-card" style="flex:1;text-align:center;padding:12px 4px;border-radius:12px;cursor:pointer">
+                     <i class="fas fa-car" style="color:#d97706;font-size:1.4rem;margin-bottom:8px"></i>
+                     <div style="font-size:.7rem;font-weight:700;color:#111">TNVS Promo</div>
+                     <div style="font-size:.6rem;color:var(--accent2);margin-top:4px;font-weight:700">See Offers <i class="fas fa-arrow-right"></i></div>
+                  </div>
+                  <div class="reward-btn white-card" style="flex:1;text-align:center;padding:12px 4px;border-radius:12px;cursor:pointer">
+                     <i class="fas fa-credit-card" style="color:#16a34a;font-size:1.4rem;margin-bottom:8px"></i>
+                     <div style="font-size:.7rem;font-weight:700;color:#111">Beep Load</div>
+                     <div style="font-size:.6rem;color:var(--accent2);margin-top:4px;font-weight:700">See Offers <i class="fas fa-arrow-right"></i></div>
+                  </div>
+               </div>
+            </div>
+          </div>
+          
+          <div style="padding:0 20px;margin-top:20px;margin-bottom:4px">
+            <h3 style="font-size:.85rem;color:#555;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:0">Recent Contributions</h3>
+          </div>
         </div>
         
-        <div style="padding:20px;margin-top:-35px;position:relative;z-index:2">
-          <div style="background:var(--surface1);border-radius:16px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-             <div>
-               <div style="font-size:.7rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Next Reward</div>
-               <div style="font-weight:700;color:var(--text1)">Free Ride Voucher</div>
-             </div>
-             <div style="text-align:right">
-               <div style="font-size:1.2rem;font-weight:800;color:var(--accent2)">2,000</div>
-               <div style="font-size:.7rem;color:var(--text3)">pts needed</div>
-             </div>
-          </div>
-        </div>
-
-        <div style="padding:0 20px;padding-bottom:100px;">
-          <h3 style="font-size:.9rem;color:var(--text1);margin-bottom:12px">Recent Contributions</h3>
-          
-          <div style="display:flex;align-items:center;padding:12px;background:var(--surface1);border-radius:12px;border:1px solid var(--border);margin-bottom:10px">
-             <div style="width:40px;height:40px;border-radius:50%;background:rgba(2,132,199,0.1);color:#0284c7;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.1rem"><i class="fas fa-car-burst"></i></div>
+        <div style="flex:1;overflow-y:auto;padding:8px 20px 100px;scrollbar-width:none">
+          <div class="ranking-item gray-container" style="padding:12px;border-radius:12px;display:flex;align-items:center;margin-bottom:10px">
+             <div style="width:40px;height:40px;border-radius:50%;background:rgba(2,132,199,0.1);color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-right:12px"><i class="fas fa-car-burst"></i></div>
              <div style="flex:1">
-               <div style="font-weight:600;font-size:.85rem;color:var(--text1)">Reported Heavy Traffic</div>
-               <div style="font-size:.7rem;color:var(--text3)">EDSA - Today, 8:42 AM</div>
+               <div style="font-weight:600;font-size:.9rem;color:#111">Reported Heavy Traffic</div>
+               <div style="font-size:.75rem;color:#555;margin-top:2px">EDSA - Today, 8:42 AM</div>
              </div>
-             <div style="font-weight:700;color:var(--accent)">+50</div>
+             <div style="font-weight:800;color:var(--accent);font-size:1rem">+20</div>
           </div>
           
-          <div style="display:flex;align-items:center;padding:12px;background:var(--surface1);border-radius:12px;border:1px solid var(--border);margin-bottom:10px">
-             <div style="width:40px;height:40px;border-radius:50%;background:rgba(22,163,74,0.1);color:#16a34a;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.1rem"><i class="fas fa-check-circle"></i></div>
+          <div class="ranking-item gray-container" style="padding:12px;border-radius:12px;display:flex;align-items:center;margin-bottom:10px">
+             <div style="width:40px;height:40px;border-radius:50%;background:rgba(22,163,74,0.1);color:#16a34a;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-right:12px"><i class="fas fa-check-circle"></i></div>
              <div style="flex:1">
-               <div style="font-weight:600;font-size:.85rem;color:var(--text1)">Verified Hazard</div>
-               <div style="font-size:.7rem;color:var(--text3)">C5 Road - Yesterday</div>
+               <div style="font-weight:600;font-size:.9rem;color:#111">Verified Hazard</div>
+               <div style="font-size:.75rem;color:#555;margin-top:2px">C5 Road - Yesterday</div>
              </div>
-             <div style="font-weight:700;color:var(--accent)">+20</div>
+             <div style="font-weight:800;color:var(--accent);font-size:1rem">+10</div>
           </div>
 
-          <div style="display:flex;align-items:center;padding:12px;background:var(--surface1);border-radius:12px;border:1px solid var(--border);margin-bottom:10px">
-             <div style="width:40px;height:40px;border-radius:50%;background:rgba(217,119,6,0.1);color:#d97706;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.1rem"><i class="fas fa-triangle-exclamation"></i></div>
+          <div class="ranking-item gray-container" style="padding:12px;border-radius:12px;display:flex;align-items:center;margin-bottom:10px">
+             <div style="width:40px;height:40px;border-radius:50%;background:rgba(217,119,6,0.1);color:#d97706;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-right:12px"><i class="fas fa-triangle-exclamation"></i></div>
              <div style="flex:1">
-               <div style="font-weight:600;font-size:.85rem;color:var(--text1)">Reported Flood</div>
-               <div style="font-size:.7rem;color:var(--text3)">Taft Ave - Oct 12</div>
+               <div style="font-weight:600;font-size:.9rem;color:#111">Reported Flood</div>
+               <div style="font-size:.75rem;color:#555;margin-top:2px">Taft Ave - Oct 12</div>
              </div>
-             <div style="font-weight:700;color:var(--accent)">+50</div>
+             <div style="font-weight:800;color:var(--accent);font-size:1rem">+20</div>
           </div>
         </div>
       </div>`,
@@ -652,79 +714,87 @@
       </div>`,
 
     planner: () => `
-      <div class="m-screen" style="background:#f5f7f5">
-        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;display:flex;align-items:flex-start;gap:12px;padding-top:16px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
-          <div style="flex:1">
-            <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
-            <h1 style="margin-top:0;color:#fff">Planner</h1>
+      <div class="m-screen" style="background:#f5f7f5;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <h1 style="margin-top:0;color:#fff">Planner</h1>
+            </div>
           </div>
+          <div class="gray-container" style="margin:-20px 16px 8px;padding:18px;border-radius:16px;position:relative;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <div style="font-size:.7rem;font-weight:700;color:var(--accent2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Quick Travel Check</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><input class="m-input" placeholder="From..." style="flex:1;padding:10px 12px;font-size:.82rem"><button style="background:none;border:none;color:var(--accent);cursor:pointer;padding:4px;font-size:1rem;" title="Swap Locations"><i class="fas fa-right-left"></i></button><input class="m-input" placeholder="To..." style="flex:1;padding:10px 12px;font-size:.82rem"></div>
+            <button class="m-btn m-btn-primary" style="margin:0;width:100%;padding:12px;font-size:.85rem">Check Conditions <i class="fas fa-magnifying-glass" style="margin-left:4px"></i></button>
+          </div>
+          <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-top:0px;">Smart Commute Dashboard</div>
+          <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;scrollbar-width:none">
+            <div class="gray-container" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center">
+              <div style="color:var(--accent2);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-cloud-sun"></i></div>
+              <div style="font-size:.8rem;font-weight:700;color:#111">Partly Cloudy</div>
+              <div style="font-size:.65rem;color:#888">No rain expected</div>
+            </div>
+            <div class="gray-container" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center">
+              <div style="color:#f59e0b;font-size:1.5rem;margin-bottom:6px"><i class="fas fa-triangle-exclamation"></i></div>
+              <div style="font-size:.8rem;font-weight:700;color:#111">2 Incidents</div>
+              <div style="font-size:.65rem;color:#888">Near your routes</div>
+            </div>
+            <div class="gray-container" style="min-width:120px;padding:12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;text-align:center">
+              <div style="color:var(--accent);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-car-side"></i></div>
+              <div style="font-size:.8rem;font-weight:700;color:#111">Sedan Cleared</div>
+              <div style="font-size:.65rem;color:#888">No deep floods</div>
+            </div>
+          </div>
+          <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Top Live Routes</div>
         </div>
-        <div style="margin:-12px 16px 8px;padding:18px;background:#fff;border-radius:16px;border:1.5px solid #e0e0e0;position:relative;z-index:2;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
-          <div style="font-size:.7rem;font-weight:700;color:var(--accent2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Quick Travel Check</div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><input class="m-input" placeholder="From..." style="flex:1;padding:10px 12px;font-size:.82rem"><button style="background:none;border:none;color:var(--accent);cursor:pointer;padding:4px;font-size:1rem;" title="Swap Locations"><i class="fas fa-right-left"></i></button><input class="m-input" placeholder="To..." style="flex:1;padding:10px 12px;font-size:.82rem"></div>
-          <button class="m-btn m-btn-primary" style="margin:0;width:100%;padding:12px;font-size:.85rem">Check Conditions <i class="fas fa-magnifying-glass" style="margin-left:4px"></i></button>
-        </div>
-        <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Smart Commute Dashboard</div>
-        <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;scrollbar-width:none">
-          <div style="min-width:120px;padding:12px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;flex-direction:column;align-items:center;text-align:center">
-            <div style="color:var(--accent2);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-cloud-sun"></i></div>
-            <div style="font-size:.8rem;font-weight:700;color:#111">Partly Cloudy</div>
-            <div style="font-size:.65rem;color:#888">No rain expected</div>
-          </div>
-          <div style="min-width:120px;padding:12px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;flex-direction:column;align-items:center;text-align:center">
-            <div style="color:#f59e0b;font-size:1.5rem;margin-bottom:6px"><i class="fas fa-triangle-exclamation"></i></div>
-            <div style="font-size:.8rem;font-weight:700;color:#111">2 Incidents</div>
-            <div style="font-size:.65rem;color:#888">Near your routes</div>
-          </div>
-          <div style="min-width:120px;padding:12px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;flex-direction:column;align-items:center;text-align:center">
-            <div style="color:var(--accent);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-car-side"></i></div>
-            <div style="font-size:.8rem;font-weight:700;color:#111">Sedan Cleared</div>
-            <div style="font-size:.65rem;color:#888">No deep floods</div>
-          </div>
-        </div>
-        <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Top Live Routes</div>
-        <div class="route-options" style="padding:0 16px">
-          <div class="route-option" onclick="navigateTo('routes-nav')" style="background:#fff">
+        <div style="flex:1;overflow-y:auto;padding-bottom:100px;scrollbar-width:none;">
+          <div class="route-options" style="padding:0 16px">
+          <div class="route-option gray-container" onclick="navigateTo('routes-nav')">
             <div class="route-option-icon"><i class="fas fa-road"></i></div>
             <div class="route-option-info"><h4>Manila → Makati</h4><p>Via main road • 10.1 km</p></div>
             <span class="route-option-time">45 min</span>
           </div>
-          <div class="route-option" onclick="navigateTo('routes-nav')" style="background:#fff">
+          <div class="route-option gray-container" onclick="navigateTo('routes-nav')">
             <div class="route-option-icon"><i class="fas fa-road"></i></div>
             <div class="route-option-info"><h4>QC → Ortigas</h4><p>Via alternate • 12.3 km</p></div>
             <span class="route-option-time">1h 10m</span>
           </div>
         </div>
-        <button class="m-btn m-btn-outline" style="margin:16px 24px;width:calc(100% - 48px);background:#fff" onclick="navigateTo('routes')">
+        <button class="m-btn m-btn-outline gray-container" style="margin:16px 24px;width:calc(100% - 48px);" onclick="navigateTo('routes')">
           <i class="fas fa-map" style="margin-right:8px;color:var(--accent)"></i> Open Full Map
         </button>
+        </div>
       </div>`,
 
     "ai-chat": () => `
-      <div class="m-screen" style="background:#f5f7f5;display:flex;flex-direction:column">
-        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;display:flex;align-items:flex-start;gap:12px;padding-top:16px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
-          <div style="width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);flex-shrink:0"><i class="fas fa-robot"></i></div>
-          <div style="flex:1">
-            <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
-            <h1 style="margin-top:0;color:#fff">AI Assistant</h1>
+      <div class="m-screen" style="background:#f5f7f5;height:100%;display:flex;flex-direction:column">
+        <div style="flex-shrink:0">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <div style="width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);flex-shrink:0"><i class="fas fa-robot"></i></div>
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <h1 style="margin-top:0;color:#fff">AI Assistant</h1>
+            </div>
           </div>
         </div>
+        <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;">
         <div style="padding:0 20px;text-align:center;margin-top:16px">
           <div style="font-size:.65rem;font-weight:700;color:var(--accent2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Suggested Topics</div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
-            <span style="padding:8px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:.75rem;color:#444;background:#fff;cursor:pointer">Passable Taft for Sedan?</span>
-            <span style="padding:8px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:.75rem;color:#444;background:#fff;cursor:pointer">Pasig Ferry status</span>
-            <span style="padding:8px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:.75rem;color:#444;background:#fff;cursor:pointer">MRT-3 waiting time</span>
-            <span style="padding:8px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:.75rem;color:#444;background:#fff;cursor:pointer">Best route to Makati</span>
+            <span class="gray-container hover-green" style="padding:8px 14px;border-radius:20px;border:1.5px solid transparent;font-size:.75rem;cursor:pointer;transition:all 0.2s;color:#111">Passable Taft for Sedan?</span>
+            <span class="gray-container hover-green" style="padding:8px 14px;border-radius:20px;border:1.5px solid transparent;font-size:.75rem;cursor:pointer;transition:all 0.2s;color:#111">Pasig Ferry status</span>
+            <span class="gray-container hover-green" style="padding:8px 14px;border-radius:20px;border:1.5px solid transparent;font-size:.75rem;cursor:pointer;transition:all 0.2s;color:#111">MRT-3 waiting time</span>
+            <span class="gray-container hover-green" style="padding:8px 14px;border-radius:20px;border:1.5px solid transparent;font-size:.75rem;cursor:pointer;transition:all 0.2s;color:#111">Best route to Makati</span>
           </div>
         </div>
-        <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;align-items:center">
+        </div>
+        <div style="padding:16px 20px 0;display:flex;flex-direction:column;align-items:center;">
           <div style="font-size:.75rem;color:#888;margin-bottom:10px">Need more help?</div>
-          <button class="m-btn m-btn-outline" style="margin:0;padding:10px 20px;border-radius:20px;font-size:.8rem;background:#fff;width:auto">
+          <button class="m-btn gray-container hover-green" style="margin:0;padding:10px 20px;border-radius:20px;font-size:.8rem;border:1.5px solid transparent;width:auto;color:#111;transition:all 0.2s">
             <i class="fas fa-headset" style="margin-right:6px"></i> Contact Human Support
           </button>
         </div>
-        <div style="padding:12px 16px;display:flex;align-items:center;gap:8px">
+        <div style="padding:12px 16px;display:flex;align-items:center;gap:8px;">
           <button style="width:36px;height:36px;border-radius:50%;border:1.5px solid #ddd;background:#fff;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="fas fa-plus"></i></button>
           <input class="m-input" placeholder="Type a message..." style="flex:1;padding:10px 14px;border-radius:20px;font-size:.85rem">
           <button style="width:36px;height:36px;border-radius:50%;border:none;background:var(--accent);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="fas fa-paper-plane"></i></button>
@@ -732,41 +802,50 @@
       </div>`,
 
     profile: () => `
-      <div class="m-screen" style="background:#f5f7f5">
-        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;display:flex;align-items:flex-start;gap:12px;padding-top:16px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
-          <div style="flex:1">
-            <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
-            <h1 style="margin-top:0;color:#fff">Profile</h1>
+      <div class="m-screen" style="background:#f5f7f5;height:100%;display:flex;flex-direction:column;padding-bottom:100px;">
+        <div style="flex-shrink:0">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <h1 style="margin-top:0;color:#fff">Profile</h1>
+            </div>
           </div>
         </div>
-        <div style="padding:0 20px;margin-top:12px">
-          <div style="width:60px;height:60px;border-radius:50%;background:#fff;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#ccc;box-shadow:0 2px 10px rgba(0,0,0,.1);position:relative;z-index:10"><i class="fas fa-user"></i></div>
+        <div style="flex-shrink:0;padding:0 20px;margin-top:12px">
+          <div style="width:60px;height:60px;border-radius:50%;background:#fff;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#ccc;box-shadow:0 2px 10px rgba(0,0,0,.1);position:relative;z-index:10">
+            <i class="fas fa-user"></i>
+            <div style="position:absolute;bottom:-4px;right:-4px;width:20px;height:20px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;border:2px solid #fff;cursor:pointer"><i class="fas fa-pencil"></i></div>
+          </div>
           <h2 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:#111;margin-top:8px">John Dela Cruz</h2>
           <p style="font-size:.75rem;color:#888">Premium Commuter • Member since 2024</p>
         </div>
-        <div style="padding:20px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+        <div style="flex-shrink:0;padding:20px 20px 8px;display:flex;justify-content:space-between;align-items:center">
           <span style="font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Registered Vehicles</span>
           <span style="font-size:.75rem;color:var(--accent);cursor:pointer" onclick="navigateTo('vehicle')">Change Profiling</span>
         </div>
-        <div style="margin:0 16px 8px;padding:14px 16px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;align-items:center;gap:12px">
-          <div style="width:32px;height:32px;border-radius:8px;background:#e6f9f5;display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-car"></i></div>
-          <div style="flex:1"><div style="font-size:.85rem;font-weight:600;color:#111">Daily Commuter</div><div style="font-size:.7rem;color:#999">Sedan • 150mm Clearance</div></div>
-          <span style="font-size:.7rem;color:#888;font-style:italic">ABC 1234</span>
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;min-height:0;">
+          <div style="margin:0 16px 8px;padding:14px 16px;border-radius:12px;border:1.5px solid transparent;display:flex;align-items:center;gap:12px;transition:all 0.2s;cursor:pointer;flex-shrink:0;" class="gray-container hover-green">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(20,184,166,0.15);display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-car"></i></div>
+            <div style="flex:1"><div style="font-size:.85rem;font-weight:600;color:#111">Daily Commuter</div><div style="font-size:.7rem;color:#999">Sedan • 150mm Clearance</div></div>
+            <span style="font-size:.7rem;color:#888;font-style:italic">ABC 1234</span>
+          </div>
+          <div style="margin:0 16px 8px;padding:14px 16px;border-radius:12px;border:1.5px solid transparent;display:flex;align-items:center;gap:12px;transition:all 0.2s;cursor:pointer;flex-shrink:0;" class="gray-container hover-green">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(20,184,166,0.15);display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-truck-monster"></i></div>
+            <div style="flex:1"><div style="font-size:.85rem;font-weight:600;color:#111">Weekend Explorer</div><div style="font-size:.7rem;color:#999">SUV • 220mm Clearance</div></div>
+            <span style="font-size:.7rem;color:#888;font-style:italic">XYZ 7890</span>
+          </div>
+          <div style="text-align:center;padding:8px;font-size:.8rem;color:var(--accent2);cursor:pointer;flex-shrink:0;" onclick="navigateTo('vehicle')">+ Add New Vehicle</div>
         </div>
-        <div style="margin:0 16px 8px;padding:14px 16px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;align-items:center;gap:12px">
-          <div style="width:32px;height:32px;border-radius:8px;background:#e6f9f5;display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-truck-monster"></i></div>
-          <div style="flex:1"><div style="font-size:.85rem;font-weight:600;color:#111">Weekend Explorer</div><div style="font-size:.7rem;color:#999">SUV • 220mm Clearance</div></div>
-          <span style="font-size:.7rem;color:#888;font-style:italic">XYZ 7890</span>
-        </div>
-        <div style="text-align:center;padding:8px;font-size:.8rem;color:var(--accent2);cursor:pointer" onclick="navigateTo('vehicle')">+ Add New Vehicle</div>
-        <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Favorite Locations</div>
-        <div style="margin:0 16px 8px;padding:14px 16px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;align-items:center;gap:12px">
-          <div style="width:32px;height:32px;border-radius:8px;background:#e6f9f5;display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-location-dot"></i></div>
-          <div><div style="font-size:.85rem;font-weight:600;color:#111">Home</div><div style="font-size:.7rem;color:var(--accent2)">Taft Ave, Manila</div></div>
-        </div>
-        <div style="margin:0 16px 8px;padding:14px 16px;background:#fff;border-radius:12px;border:1.5px solid #eee;display:flex;align-items:center;gap:12px">
-          <div style="width:32px;height:32px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#888"><i class="fas fa-location-dot"></i></div>
-          <div><div style="font-size:.85rem;font-weight:600;color:#111">Work</div><div style="font-size:.7rem;color:var(--accent2)">Ayala Ave, Makati</div></div>
+        <div style="flex-shrink:0;padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Favorite Locations</div>
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;min-height:0;">
+          <div style="margin:0 16px 8px;padding:14px 16px;border-radius:12px;border:1.5px solid transparent;display:flex;align-items:center;gap:12px;transition:all 0.2s;cursor:pointer;flex-shrink:0;" class="gray-container hover-green">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(20,184,166,0.15);display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-location-dot"></i></div>
+            <div><div style="font-size:.85rem;font-weight:600;color:#111">Home</div><div style="font-size:.7rem;color:var(--accent2)">Taft Ave, Manila</div></div>
+          </div>
+          <div style="margin:0 16px 8px;padding:14px 16px;border-radius:12px;border:1.5px solid transparent;display:flex;align-items:center;gap:12px;transition:all 0.2s;cursor:pointer;flex-shrink:0;" class="gray-container hover-green">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(20,184,166,0.15);display:flex;align-items:center;justify-content:center;color:#888"><i class="fas fa-location-dot"></i></div>
+            <div><div style="font-size:.85rem;font-weight:600;color:#111">Work</div><div style="font-size:.7rem;color:var(--accent2)">Ayala Ave, Makati</div></div>
+          </div>
         </div>
       </div>`
   };

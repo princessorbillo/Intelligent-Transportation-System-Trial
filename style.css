@@ -108,7 +108,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .m-text-sm{font-size:.8rem;color:#888;padding:0 24px}
 
 /* --- Bottom Tab Bar --- */
-.m-tab-bar{height:80px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-around;padding-bottom:16px;z-index:10}
+.m-tab-bar{height:80px;background:#ebebeb;border-top:1px solid #ddd;display:flex;align-items:center;justify-content:space-around;padding-bottom:16px;z-index:10}
 .m-tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.6rem;color:#aaa;cursor:pointer;border:none;background:none;padding:6px 12px;transition:color .2s}
 .m-tab.active{color:var(--accent)}
 .m-tab i{font-size:1.1rem}
@@ -452,3 +452,21 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 /* --- Smooth transition --- */
 .phone-screen, .phone-screen *{transition:background-color .3s ease, color .3s ease, border-color .3s ease}
+
+/* --- Global Components --- */
+.gray-container { background: #ebebeb !important; border: 1px solid #ddd !important; }
+.white-card { background: #fff !important; border: 1px solid #e5e5e5 !important; }
+
+.dark-mode .gray-container { background: #1e1e1e !important; border-color: #333 !important; }
+.dark-mode .white-card { background: #1a1a1a !important; border-color: #333 !important; }
+.dark-mode [style*="color:#555"] { color: #b0b0c0 !important; }
+
+.ranking-item:hover { border-color: var(--accent) !important; background: #f0fdfa !important; }
+.reward-btn { transition: all 0.2s ease; }
+.reward-btn:hover { border-color: var(--accent) !important; background: #f0fdfa !important; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(20,184,166,0.15); }
+
+.dark-mode .ranking-item:hover, .dark-mode .gray-container:hover { border-color: var(--accent) !important; background: #1a3a2e !important; }
+.dark-mode .reward-btn:hover { border-color: var(--accent) !important; background: #1a3a2e !important; }
+
+.hover-green:hover { border-color: var(--accent) !important; }
+

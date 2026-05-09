@@ -376,31 +376,44 @@
       </div>`,
 
     "routes-report": () => `
-      <div class="m-screen" style="background:#fff;padding-bottom:0">
-        <div class="nav-direction">
+      <div class="m-screen" style="background:#fff;padding-bottom:0;display:flex;flex-direction:column;height:100%;">
+        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05);position:relative;z-index:20;">
+          <div style="display:flex;align-items:center;">
+            <i class="fas fa-arrow-left" style="cursor:pointer;font-size:1.4rem" onclick="navigateTo('routes-nav')"></i>
+            <h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#fff;margin:0;margin-left:12px;">Navigation</h2>
+          </div>
+        </div>
+        <div class="nav-direction" style="margin-top:-16px;position:relative;z-index:10;border-radius:0 0 20px 20px;padding-top:24px;">
           <div class="nav-arrow"><i class="fas fa-arrow-up"></i></div>
           <div class="nav-text"><h3>67 m</h3><p>Lorem Ipsum Street</p></div>
           <div class="nav-badge">Next ›</div>
         </div>
-        <div class="nav-map" style="height:260px">
-          <img src="assets/map.png" alt="Navigation Map">
+        <div class="nav-map" style="flex:1;height:auto;position:relative;overflow:hidden">
+          <img src="assets/map.png" alt="Navigation Map" style="width:100%;height:calc(100% + 80px);margin-top:-80px;object-fit:cover;">
           <div class="map-pin user" style="top:60%;left:40%"></div>
           <div class="map-pin dest" style="top:25%;right:20%"></div>
-        </div>
-        <div class="nav-footer" style="flex-direction:column;gap:10px;align-items:stretch">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div class="nav-eta"><h3>67 min</h3><p>67 km • 12:51</p></div>
-            <div class="nav-actions">
-              <button class="nav-action-btn"><i class="fas fa-flag"></i></button>
-              <button class="nav-action-btn"><i class="fas fa-volume-high"></i></button>
-              <button class="nav-action-btn"><i class="fas fa-magnifying-glass"></i></button>
+          
+          <div class="nav-footer" style="position:absolute;bottom:0;left:0;right:0;padding:20px;padding-bottom:30px;border-radius:20px 20px 0 0;box-shadow:0 -4px 12px rgba(0,0,0,0.1);z-index:10;display:flex;flex-direction:column;gap:10px;align-items:stretch;background:#fff">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div class="nav-eta" style="color:#111">
+                <h3 style="margin:0;font-size:1.4rem;font-weight:700">67 min</h3>
+                <p style="margin:4px 0 0;font-size:.8rem;color:#888">67 km • 10:51</p>
+              </div>
+              <div class="nav-actions" style="display:flex;gap:12px;">
+                <button class="nav-action-btn" style="width:40px;height:40px;border-radius:12px;border:1.5px solid #ddd;background:#fff;color:#555;font-size:1.1rem;cursor:pointer"><i class="fas fa-flag"></i></button>
+                <button class="nav-action-btn" style="width:40px;height:40px;border-radius:12px;border:1.5px solid #ddd;background:#fff;color:#555;font-size:1.1rem;cursor:pointer"><i class="fas fa-volume-high"></i></button>
+                <button class="nav-action-btn" style="width:40px;height:40px;border-radius:12px;border:1.5px solid #ddd;background:#fff;color:#555;font-size:1.1rem;cursor:pointer"><i class="fas fa-magnifying-glass"></i></button>
+              </div>
             </div>
-          </div>
-          <div class="slideup-panel" style="margin:0 -20px -16px;padding:16px 20px 20px">
-            <div class="slideup-handle"></div>
-            <div class="slideup-title">Report problem</div>
-            <textarea class="m-input" placeholder="Describe the problem..." style="width:100%;height:80px;resize:none;margin:12px 0 16px;padding:12px;border-radius:12px;border:1.5px solid #eee;font-family:inherit;font-size:.85rem;background:#fafafa;box-sizing:border-box"></textarea>
-            <button class="m-btn m-btn-primary" style="margin:0;width:100%" onclick="navigateTo('routes')">Exit and Send report</button>
+            <div class="slideup-panel" style="margin:0 -20px -30px;padding:16px 20px 20px;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -4px 12px rgba(0,0,0,0.05);">
+              <div class="slideup-handle"></div>
+              <div class="slideup-title">Report problem</div>
+              <textarea class="m-input" placeholder="Describe the problem..." style="width:100%;height:80px;resize:none;margin:12px 0 16px;padding:12px;border-radius:12px;border:1.5px solid #eee;font-family:inherit;font-size:.85rem;background:#fafafa;box-sizing:border-box"></textarea>
+              <div style="display:flex;gap:12px;">
+                <button class="m-btn gray-container hover-green" style="margin:0;flex:1;border:1.5px solid transparent;color:#111;transition:all 0.2s" onclick="navigateTo('routes-nav')">Exit</button>
+                <button class="m-btn m-btn-primary" style="margin:0;flex:2" onclick="navigateTo('routes-nav')">Send report</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>`,

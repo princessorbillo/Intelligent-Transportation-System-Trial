@@ -399,8 +399,8 @@
           <div class="slideup-panel" style="margin:0 -20px -16px;padding:16px 20px 20px">
             <div class="slideup-handle"></div>
             <div class="slideup-title">Report problem</div>
-            <div style="height:60px"></div>
-            <button class="m-btn m-btn-dark" style="margin:0;width:100%" onclick="navigateTo('routes')">Exit</button>
+            <textarea class="m-input" placeholder="Describe the problem..." style="width:100%;height:80px;resize:none;margin:12px 0 16px;padding:12px;border-radius:12px;border:1.5px solid #eee;font-family:inherit;font-size:.85rem;background:#fafafa;box-sizing:border-box"></textarea>
+            <button class="m-btn m-btn-primary" style="margin:0;width:100%" onclick="navigateTo('routes')">Exit and Send report</button>
           </div>
         </div>
       </div>`,

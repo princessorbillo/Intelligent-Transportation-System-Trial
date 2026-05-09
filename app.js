@@ -189,10 +189,9 @@
         <div class="m-divider"></div>
         <p class="m-text-sm m-text-center">Don't have a Easy-Go account yet?</p>
         <button class="m-btn m-btn-outline" onclick="navigateTo('register')">Create an account</button>
-        <div class="m-tab-bar">
-          <button class="m-tab active"><i class="fas fa-right-to-bracket"></i><span>Login</span></button>
-          <button class="m-tab"><i class="fas fa-circle-info"></i><span>About</span></button>
-          <button class="m-tab"><i class="fas fa-circle-question"></i><span>Help</span></button>
+        <div style="display:flex; justify-content:center; gap:40px; margin-top:30px; margin-bottom:20px; color:var(--text3); font-size:0.75rem;">
+          <button style="background:none; border:none; color:inherit; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px;"><i class="fas fa-circle-info" style="font-size:1.2rem;"></i><span>About</span></button>
+          <button style="background:none; border:none; color:inherit; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px;"><i class="fas fa-circle-question" style="font-size:1.2rem;"></i><span>Help</span></button>
         </div>
       </div>`,
 

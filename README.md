@@ -42,3 +42,4 @@ Easy-Go was designed with a focus on modern aesthetics, utilizing a vibrant Teal
 ---
 
 *This prototype was developed as part of an Intelligent Transportation System Trial.*
+ 

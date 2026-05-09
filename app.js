@@ -68,11 +68,11 @@
       flow: ["Community", "Report Incident", "Feed"]
     },
     {
-      id: "ranking", name: "Ranking",
-      desc: "Leaderboard showing top community contributors ranked by their activity and report scores.",
-      components: ["Ranking Tabs", "User Rankings", "Score Display"],
-      interactions: ["User → Profile View", "Tab → Filter Rankings"],
-      flow: ["Home", "Ranking", "Profile"]
+      id: "ranking", name: "My Points",
+      desc: "Dashboard showing the user's accumulated points, upcoming rewards, and recent contribution history.",
+      components: ["Total Points", "Next Reward", "Contribution History"],
+      interactions: ["Back → Home"],
+      flow: ["Home", "My Points"]
     },
     {
       id: "notif-passable", name: "Notification (Passable)",
@@ -525,38 +525,61 @@
         <div style="padding:10px 24px"><button class="m-btn m-btn-primary" onclick="navigateTo('home')">Submit for Review</button></div>
       </div>`,
 
-    ranking: () => {
-      const users = [
-        { name: "Maria Santos", score: 2450, sub: "142 reports" },
-        { name: "Juan Cruz", score: 2180, sub: "128 reports" },
-        { name: "Ana Reyes", score: 1920, sub: "115 reports" },
-        { name: "Carlos Lim", score: 1650, sub: "98 reports" },
-        { name: "Sofia Garcia", score: 1420, sub: "87 reports" },
-        { name: "Miguel Torres", score: 1180, sub: "72 reports" },
-        { name: "Elena Rivera", score: 950, sub: "61 reports" }
-      ];
-      const posClass = (i) => i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "normal";
-      const initials = (n) => n.split(" ").map(w => w[0]).join("");
-      return `
-        <div class="m-screen" style="background:#fafafa">
-          <div class="ranking-header"><h2>Ranking</h2></div>
-          <div class="ranking-tabs">
-            <button class="ranking-tab active">Weekly</button>
-            <button class="ranking-tab">Monthly</button>
-            <button class="ranking-tab">All Time</button>
+    ranking: () => `
+      <div class="m-screen" style="background:#fafafa">
+        <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding:24px 20px 40px;color:#fff;border-radius:0 0 24px 24px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
+          <div style="font-size:1.2rem;font-weight:700;margin-bottom:16px;text-align:left"><i class="fas fa-arrow-left" style="cursor:pointer;margin-right:12px" onclick="navigateTo('home')"></i> My Points</div>
+          <div style="width:80px;height:80px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2.5rem;color:#fcd34d;box-shadow:0 0 20px rgba(252,211,77,0.4)">
+            <i class="fas fa-star"></i>
           </div>
-          <div class="ranking-list">
-            ${users.map((u, i) => `
-              <div class="ranking-item">
-                <div class="ranking-pos ${posClass(i)}">${i + 1}</div>
-                <div class="ranking-avatar"><i class="fas fa-user"></i></div>
-                <div class="ranking-info"><h4>${u.name}</h4><p>${u.sub}</p></div>
-                <div class="ranking-score">${u.score.toLocaleString()}</div>
-              </div>
-            `).join("")}
+          <div style="font-size:2.5rem;font-weight:800;letter-spacing:-1px;font-family:var(--font-display)">1,420</div>
+          <div style="font-size:.85rem;opacity:0.9">Total Points Accumulated</div>
+        </div>
+        
+        <div style="padding:20px;margin-top:-35px;position:relative;z-index:2">
+          <div style="background:var(--surface1);border-radius:16px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+             <div>
+               <div style="font-size:.7rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Next Reward</div>
+               <div style="font-weight:700;color:var(--text1)">Free Ride Voucher</div>
+             </div>
+             <div style="text-align:right">
+               <div style="font-size:1.2rem;font-weight:800;color:var(--accent2)">2,000</div>
+               <div style="font-size:.7rem;color:var(--text3)">pts needed</div>
+             </div>
           </div>
-        </div>`;
-    },
+        </div>
+
+        <div style="padding:0 20px;padding-bottom:100px;">
+          <h3 style="font-size:.9rem;color:var(--text1);margin-bottom:12px">Recent Contributions</h3>
+          
+          <div style="display:flex;align-items:center;padding:12px;background:var(--surface1);border-radius:12px;border:1px solid var(--border);margin-bottom:10px">
+             <div style="width:40px;height:40px;border-radius:50%;background:rgba(2,132,199,0.1);color:#0284c7;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.1rem"><i class="fas fa-car-burst"></i></div>
+             <div style="flex:1">
+               <div style="font-weight:600;font-size:.85rem;color:var(--text1)">Reported Heavy Traffic</div>
+               <div style="font-size:.7rem;color:var(--text3)">EDSA - Today, 8:42 AM</div>
+             </div>
+             <div style="font-weight:700;color:var(--accent)">+50</div>
+          </div>
+          
+          <div style="display:flex;align-items:center;padding:12px;background:var(--surface1);border-radius:12px;border:1px solid var(--border);margin-bottom:10px">
+             <div style="width:40px;height:40px;border-radius:50%;background:rgba(22,163,74,0.1);color:#16a34a;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.1rem"><i class="fas fa-check-circle"></i></div>
+             <div style="flex:1">
+               <div style="font-weight:600;font-size:.85rem;color:var(--text1)">Verified Hazard</div>
+               <div style="font-size:.7rem;color:var(--text3)">C5 Road - Yesterday</div>
+             </div>
+             <div style="font-weight:700;color:var(--accent)">+20</div>
+          </div>
+
+          <div style="display:flex;align-items:center;padding:12px;background:var(--surface1);border-radius:12px;border:1px solid var(--border);margin-bottom:10px">
+             <div style="width:40px;height:40px;border-radius:50%;background:rgba(217,119,6,0.1);color:#d97706;display:flex;align-items:center;justify-content:center;margin-right:12px;font-size:1.1rem"><i class="fas fa-triangle-exclamation"></i></div>
+             <div style="flex:1">
+               <div style="font-weight:600;font-size:.85rem;color:var(--text1)">Reported Flood</div>
+               <div style="font-size:.7rem;color:var(--text3)">Taft Ave - Oct 12</div>
+             </div>
+             <div style="font-weight:700;color:var(--accent)">+50</div>
+          </div>
+        </div>
+      </div>`,
 
     "notif-passable": () => `
       <div class="notif-screen">

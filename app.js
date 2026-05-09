@@ -639,7 +639,7 @@
         </div>
         <div style="margin:-12px 16px 8px;padding:18px;background:#fff;border-radius:16px;border:1.5px solid #e0e0e0;position:relative;z-index:2;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
           <div style="font-size:.7rem;font-weight:700;color:var(--accent2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Quick Travel Check</div>
-          <div style="display:flex;gap:8px;margin-bottom:10px"><input class="m-input" placeholder="From..." style="flex:1;padding:10px 12px;font-size:.82rem"><input class="m-input" placeholder="To..." style="flex:1;padding:10px 12px;font-size:.82rem"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><input class="m-input" placeholder="From..." style="flex:1;padding:10px 12px;font-size:.82rem"><button style="background:none;border:none;color:var(--accent);cursor:pointer;padding:4px;font-size:1rem;" title="Swap Locations"><i class="fas fa-right-left"></i></button><input class="m-input" placeholder="To..." style="flex:1;padding:10px 12px;font-size:.82rem"></div>
           <button class="m-btn m-btn-primary" style="margin:0;width:100%;padding:12px;font-size:.85rem">Check Conditions <i class="fas fa-magnifying-glass" style="margin-left:4px"></i></button>
         </div>
         <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Smart Commute Dashboard</div>

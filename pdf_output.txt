@@ -1,0 +1,159 @@
+--- Reading c:\Users\print\OneDrive - MSFT\Desktop\3Syllables\Mobility_Blueprint.pdf ---
+--- Reading c:\Users\print\OneDrive - MSFT\Desktop\3Syllables\Project.pdf ---
+Page 1:
+Project Timeline
+Activity Start Date End Date Status
+Brain Storming Ideas April 2 May 8 Completed
+Team Profile April 2 April 30 Completed
+Concept Selection May 8 May 11 In Progress
+Wireframe May 8 May 11 In Progress
+Project Concept Proposal May 8 May 11 Not Started
+Links
+Project JICA MMITS
+MMDA Project
+[MECHANICS] MMITS Bagong Gawi, Bagong Galaw Challenge
+Mechanics  (for copy paste)
+Figma
+
+Page 2:
+MMITS Project 
+CharterApp Name: 3 syllables
+Project Overview
+Project Name
+Team Name
+Problem Statement
+General Objective
+Team Members
+Role Name Affiliation Email
+App Concept & Scope
+Key Features
+
+Page 3:
+Target Users
+Required Data
+Key Milestones
+Milestone Deadline Status Owner
+Individual/Team Profile 
+Submission30 April 2026 Completed
+Concept Proposal 
+Submission11 May 2026 In Progress
+Development of Demo 
+VersionsTBA 
+Final Judging and 
+PresentationTBA 
+
+Page 4:
+CHALLENGE 
+OBJECTIVESCONCEPT WORDSKPI
+#IDEA Category Remarks 1 [1]2 [2]3 [3]traffic 
+management 
+[4]parking 
+management 
+[5]enforcement 
+[6]commuter 
+information 
+[7]road 
+infrastructure 
+[8] road safety [9]KPI How to measure
+1Vehicle-Specific Constraint & Incident Engine Core Mobility & 
+Intelligent RoutingCombined ideas 1 & 2 from MMDA 
+ProjectReduction in Stalled or 
+Stranded Vehicles.percentage of users who successfully avoid routes marked as "Danger" for their specific Ground Clearance Baseline
+2Predictive "Trip Planner" & Smart Rerouting Core Mobility & 
+Intelligent Routing Combined ideas 3 & 4 from MMDA 
+ProjectReduction in Average 
+Travel Time & Bottleneck 
+VolumeEstimated Clearance Time (ECT) of a blocked route against the actual time saved by users who follow the app's Smart Rerouting suggestions
+3Gamification Ecosystem Behavioral Change & 
+SustainabilityIdea 5 from MMDA ProjectSuggested 
+name: Bagong gawiVolume of Sustainable 
+Transport Shifts-total number of "Green Commutes" logged by the system when passive telemetry detects a user switching from a private vehicle to public transit (MRT/LRT, bus, or ferry)
+-track the total amount of Sustainable Mobility Points awarded and redeemed
+4AI Mobility Assistant Chatbot Core Mobility & 
+Intelligent RoutingIdea 6 from MMDA ProjectSuggested 
+name: Bagong gawiPre-Trip Decision 
+Engagement Ratethe number of daily conversational queries handled by the AI regarding road status or route safety
+5Categorized "Smart Commute" Dashboard Core Mobility & 
+Intelligent RoutingIdea 7 from MMDA Project 
+Suggested name: Bagong gawiProactive Rerouting/Delay 
+Ratepercentage of users who alter their planned departure time or switch their intended destination mode after viewing the consolidated weather, incident, and road construction dashboard
+6Hybrid "Anti-Fake News" Verification System System Integrity & 
+Data Privacy 1-A-2  and 8-B from Project JICA 
+MMITSHazard Alert Accuracy & 
+Rejection Rate-speed (latency) at which a hazard hits the 3-5 user report threshold and is auto-flagged
+-measure the percentage of false reports successfully blocked by the AI Landmark Matching and cross-referenced passive telemetry
+7Offline Emergency & Resilience Mode Resilience & 
+Accessibility1-C from Project JICA MMITS and 
+suggested meshOffline Accessibility and 
+Safe-Zone Utilization- number of successful SMS-based status queries processed by the Flask API gateway during periods of extreme weather or network outages
+- track the number of users successfully guided to mapped Unloading/Loading safe zones
+8Privacy by Design (Segment-Only Tracking) System Integrity & 
+Data Privacy privacy  from Project JICA MMITSData Anonymization 
+Success Rateguaranteeing that 100% of tracked trips successfully execute "Start-End Masking" (automatically deleting the first and last 200 meters of a trip) to ensure zero Personal Identifiable Information (PII) or exact home addresses are ever logged to the server
+9"Social KYC" and Commuter Identity Binding System Integrity & 
+Data Privacyto protect gamifcation from idea 3, 
+KYC and KYCReward Ecosystem 
+Integrityratio of fully verified "Social KYC" accounts (those bound by OTP, device fingerprinting, and a linked digital wallet) versus unverified accounts
+
+Page 5:
+1The "Vehicle-Specific Hazard" Flow
+Supplier Input Process Output Customer
+MMDA & JICA >IoT Flood Data & Official 
+Datasets>Flask Backend Cross-
+Referencing vs. Vehicle 
+Profile>Personalized Hazard Status 
+(Passable/Danger)>Private Vehicle Drivers
+2The "Anti-Fake News" Crowdsourcing Flow
+Supplier Input Process Output Customer
+Road Users & Smartphones >Crowdsourced Reports & 
+Passive Telemetry (G-
+sensors)>Tier 1 to 3 Automated 
+Verification (3-5 report 
+threshold & AI Image Check)>Instant Segment 
+Notifications (via FCM)>All Target Commuters
+3The "Smart Rerouting & TDM" Flow
+Supplier Input Process Output Customer
+MMDA/JICA Data Dashboard >Travel Time & Road Crash 
+Data>Estimated Clearance Time 
+(ECT) Prediction>Smart Rerouting & Inter-
+Modal "Nudges" (to 
+MRT/Ferry)>MMDA & Local Government 
+Units (by reducing 
+congestion)
+4The "Go Green Gamification" Flow
+Supplier Input Process Output Customer
+Smartphones/Devices >Segment-Only Tracking 
+(Detecting shifts to public 
+transit)>Gamification & Reward 
+Processing>Sustainable Mobility Points >Public Transit Commuters
+5The "Offline Emergency" Flow
+Supplier Input Process Output Customer
+Telco Partners & Road Users >SMS Queries (e.g., "STATUS 
+TAFT")>Flask API Status Retrieval >Text-based Hazard Status 
+Replies>Stranded Commuters 
+without Mobile Data
+
+Page 6:
+[1] Promote innovation in the application of ITS and digital technologies that encourage behavioral change and support sustainable travel 
+choices; 
+[2] Foster collaboration among students, professionals, government agencies, and industry stakeholders in developing people-centered, 
+technology-driven mobility solutions;
+[3] Increase awareness of the role of behavioral change and technological innovation in improving road safety, reducing congestion, and 
+advancing sustainable urban mobility in Metro Manila; and
+[4] Traffic Monitoring
+Traffic Bottleneck Monitoring
+Traffic Signal System
+Travel Time Monitoring
+[5] Smart Parking Finder
+Illegal Parking Detection and Reporting
+[6] Road Clearing
+Traffic Violation Monitoring
+No-Contact Apprehension Policy
+Number Coding
+[7] Trip Planning
+[8] Road Construction Works
+Unloading / Loading Zones
+[9] Road Crashes Monitoring
+Road Emergency Response
+Pedestrian Safety
+

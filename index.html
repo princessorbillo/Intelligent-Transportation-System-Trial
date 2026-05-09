@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy-Go — Mobile App Prototype</title>
+    <meta name="description" content="Interactive mobile prototype for Easy-Go ride-sharing and commute app. Explore routes, community reports, and rankings.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Gradient Orbs -->
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+
+    <!-- Main Layout -->
+    <div class="app-layout">
+        <!-- Left Sidebar - Screen Navigator -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo" style="display:flex; align-items:center;">
+                    <div style="width:36px;height:36px;background:linear-gradient(135deg, var(--accent), var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.1rem;font-family:'Outfit', sans-serif;letter-spacing:-1px;box-shadow:0 4px 10px rgba(20,184,166,0.3);flex-shrink:0;">EG</div>
+                    <span class="sidebar-title" style="margin-left:12px;">Easy-Go</span>
+                </div>
+                <p class="sidebar-subtitle">Mobile Prototype</p>
+            </div>
+            <nav class="screen-nav" id="screenNav">
+                <div class="nav-section-label">Authentication</div>
+                <button class="nav-item active" data-screen="login" id="nav-login"><i class="fas fa-right-to-bracket"></i><span>Login</span></button>
+                <button class="nav-item" data-screen="register" id="nav-register"><i class="fas fa-user-plus"></i><span>Registration</span></button>
+
+                <div class="nav-section-label">Main Tabs</div>
+                <button class="nav-item" data-screen="home" id="nav-home"><i class="fas fa-house"></i><span>Home</span></button>
+                <button class="nav-item" data-screen="planner" id="nav-planner"><i class="fas fa-paper-plane"></i><span>Planner</span></button>
+                <button class="nav-item" data-screen="ai-chat" id="nav-ai-chat"><i class="fas fa-comment-dots"></i><span>AI Chat</span></button>
+                <button class="nav-item" data-screen="profile" id="nav-profile"><i class="fas fa-user"></i><span>Profile</span></button>
+
+
+
+                <div class="nav-section-label">Notifications</div>
+                <button class="nav-item" data-screen="notifications" id="nav-notifications"><i class="fas fa-bell"></i><span>Notification Center</span></button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="version-badge">v1.0 Prototype</div>
+            </div>
+        </aside>
+
+        <!-- Center - Phone Preview -->
+        <main class="phone-stage">
+            <div class="stage-header">
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="stage-title" id="stageTitle">Login</h1>
+                <div class="stage-controls">
+                    <button class="control-btn" id="prevScreen" title="Previous Screen">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="screen-counter" id="screenCounter">1 / 11</span>
+                    <button class="control-btn" id="nextScreen" title="Next Screen">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="phone-container">
+                <div class="phone-frame">
+                    <!-- Phone Notch -->
+                    <div class="phone-notch">
+                        <div class="notch-camera"></div>
+                    </div>
+                    <!-- Status Bar -->
+                    <div class="status-bar">
+                        <span class="status-time" id="statusTime">9:41</span>
+                        <div class="status-icons">
+                            <i class="fas fa-signal"></i>
+                            <i class="fas fa-wifi"></i>
+                            <i class="fas fa-battery-full"></i>
+                        </div>
+                    </div>
+                    <!-- Screen Content Area -->
+                    <div class="phone-screen" id="phoneScreen">
+                        <!-- Screens will be injected here -->
+                    </div>
+                    <!-- Fixed UI Overlay -->
+                    <div class="fixed-ui-overlay" id="fixedUIOverlay">
+                        <div class="fab-container" id="fabContainer"></div>
+                        <div class="tab-bar-container" id="tabBarContainer"></div>
+                    </div>
+                    <!-- Side Menu Overlay -->
+                    <div class="m-side-menu" id="mSideMenu">
+                        <div class="m-side-menu-overlay" onclick="document.getElementById('mSideMenu').classList.remove('open')"></div>
+                        <div class="m-side-menu-content">
+                            <div class="m-side-menu-header">
+                                <h3>Menu</h3>
+                                <button onclick="document.getElementById('mSideMenu').classList.remove('open')"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="m-side-menu-links">
+                                <button class="m-side-link" onclick="document.getElementById('mSideMenu').classList.remove('open'); navigateTo('ranking')"><i class="fas fa-star"></i> My points</button>
+                                <button class="m-side-link" onclick="document.getElementById('mSideMenu').classList.remove('open'); navigateTo('my-reports')"><i class="fas fa-file-lines"></i> My Contributions</button>
+                                <button class="m-side-link" onclick="document.getElementById('mSideMenu').classList.remove('open'); navigateTo('app-report')"><i class="fas fa-flag"></i> Report</button>
+                                <button class="m-side-link" onclick="document.getElementById('mSideMenu').classList.remove('open'); navigateTo('verification')"><i class="fas fa-check-circle"></i> Verification</button>
+                                <div class="m-side-link" style="display:flex; justify-content:space-between; width:100%; cursor:default;"><div style="display:flex; align-items:center; gap:12px;"><i class="fas fa-moon" style="width:20px;text-align:center;color:var(--accent);font-size:1rem;"></i> Dark Mode</div><i id="darkModeToggle" class="fas fa-toggle-off" style="font-size:1.4rem; color:#ccc; cursor:pointer;" onclick="var pf=document.querySelector('.phone-frame'); pf.classList.toggle('dark-mode'); this.classList.toggle('fa-toggle-off'); this.classList.toggle('fa-toggle-on'); this.style.color=this.classList.contains('fa-toggle-on')?'var(--accent)':'#ccc';"></i></div>
+                                <div style="flex:1"></div>
+                                <button class="m-side-link" style="color:#ef4444" onclick="document.getElementById('mSideMenu').classList.remove('open'); navigateTo('login')"><i class="fas fa-sign-out-alt"></i> Log out</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Home Indicator -->
+                    <div class="home-indicator"></div>
+                </div>
+            </div>
+
+            <div class="interaction-hints">
+                <span><i class="fas fa-hand-pointer"></i> Click buttons to interact</span>
+                <span><i class="fas fa-arrows-left-right"></i> Navigate screens with arrows</span>
+            </div>
+        </main>
+
+        <!-- Right Panel - Screen Info -->
+        <aside class="info-panel" id="infoPanel">
+            <div class="info-header">
+                <h2>Screen Details</h2>
+            </div>
+            <div class="info-content" id="infoContent">
+                <div class="info-section">
+                    <h3 class="info-label">Screen Name</h3>
+                    <p class="info-value" id="infoName">Login</p>
+                </div>
+                <div class="info-section">
+                    <h3 class="info-label">Description</h3>
+                    <p class="info-value" id="infoDesc">Welcome screen where users can log in with their phone number or create a new account.</p>
+                </div>
+                <div class="info-section">
+                    <h3 class="info-label">Flow</h3>
+                    <div class="flow-diagram" id="flowDiagram">
+                        <div class="flow-item active">Login</div>
+                        <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-item">Register</div>
+                        <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-item">Home</div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h3 class="info-label">Components</h3>
+                    <div class="component-list" id="componentList">
+                        <div class="component-chip"><i class="fas fa-input-text"></i> Phone Input</div>
+                        <div class="component-chip"><i class="fas fa-key"></i> Password Input</div>
+                        <div class="component-chip"><i class="fas fa-square-check"></i> Login Button</div>
+                        <div class="component-chip"><i class="fas fa-link"></i> Register Link</div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h3 class="info-label">Interactions</h3>
+                    <div class="interaction-list" id="interactionList">
+                        <div class="interaction-item">
+                            <i class="fas fa-arrow-right-to-bracket"></i>
+                            <span>Login → Home Screen</span>
+                        </div>
+                        <div class="interaction-item">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Register → Registration Screen</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

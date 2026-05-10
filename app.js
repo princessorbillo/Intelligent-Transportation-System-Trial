@@ -336,9 +336,9 @@
             <div class="community-post-title">${p.title}</div>
             <div class="community-post-meta">Posted by ${p.author} • ${p.time}</div>
             <div class="community-post-actions">
-              <button class="community-action"><i class="far fa-heart"></i> ${p.likes}</button>
-              <button class="community-action"><i class="far fa-comment"></i> ${p.comments}</button>
-              <button class="community-action"><i class="far fa-share-from-square"></i></button>
+              <button data-like-index="${window.communityPosts ? window.communityPosts.indexOf(p) : 0}" class="community-action ${p.liked ? 'liked' : ''}" onclick="window.toggleLike(${window.communityPosts ? window.communityPosts.indexOf(p) : 0})"><i class="${p.liked ? 'fas' : 'far'} fa-heart"></i> ${p.likes}</button>
+              <button class="community-action" onclick="window.openComments(${window.communityPosts ? window.communityPosts.indexOf(p) : 0})"><i class="far fa-comment"></i> ${p.commentsData ? p.commentsData.length : 0}</button>
+              <button class="community-action" onclick="window.openSharePopup()"><i class="far fa-share-from-square"></i></button>
             </div>
           </div>
         </div>
@@ -500,9 +500,9 @@
             <div class="community-post-title">${p.title}</div>
             <div class="community-post-meta">Posted by ${p.author} • ${p.time}</div>
             <div class="community-post-actions">
-              <button class="community-action"><i class="far fa-heart"></i> ${p.likes}</button>
-              <button class="community-action"><i class="far fa-comment"></i> ${p.comments}</button>
-              <button class="community-action"><i class="far fa-share-from-square"></i></button>
+              <button data-like-index="${window.communityPosts.indexOf(p)}" class="community-action ${p.liked ? 'liked' : ''}" onclick="window.toggleLike(${window.communityPosts.indexOf(p)})"><i class="${p.liked ? 'fas' : 'far'} fa-heart"></i> ${p.likes}</button>
+              <button class="community-action" onclick="window.openComments(${window.communityPosts.indexOf(p)})"><i class="far fa-comment"></i> ${p.commentsData ? p.commentsData.length : 0}</button>
+              <button class="community-action" onclick="window.openSharePopup()"><i class="far fa-share-from-square"></i></button>
             </div>
           </div>
         </div>
@@ -1236,9 +1236,303 @@
   let currentIndex = 0;
   
   window.communityPosts = window.communityPosts || [
-    { title: "Clean road improvements on Main St", author: "@user123", time: "2h ago", likes: 24, comments: 8, img: "assets/community1.png" },
-    { title: "Pothole reported on Elm Avenue", author: "@driver456", time: "5h ago", likes: 41, comments: 15, img: "assets/community2.png" }
+    { title: "Clean road improvements on Main St", author: "@user123", time: "2h ago", likes: 24, liked: false, img: "assets/community1.png", commentsData: [
+      { author: "@commuter88", text: "Finally! This road was terrible before.", time: "1h ago", likes: 5, liked: false, replies: [] },
+      { author: "@driver007", text: "Can confirm, much smoother drive now.", time: "1h ago", likes: 3, liked: false, replies: [] },
+      { author: "@pedestrian22", text: "Hope they add bike lanes too!", time: "45m ago", likes: 8, liked: false, replies: [] },
+      { author: "@trafficwatch", text: "Great improvement. Less congestion observed.", time: "30m ago", likes: 2, liked: false, replies: [] }
+    ]},
+    { title: "Pothole reported on Elm Avenue", author: "@driver456", time: "5h ago", likes: 41, liked: false, img: "assets/community2.png", commentsData: [
+      { author: "@motoRider99", text: "Almost hit this pothole last night. Very dangerous!", time: "4h ago", likes: 12, liked: false, replies: [] },
+      { author: "@safeRoads", text: "Reported to DPWH already. Hoping for quick fix.", time: "3h ago", likes: 9, liked: false, replies: [] },
+      { author: "@nightOwl", text: "It's near the intersection, right? I saw cones there.", time: "2h ago", likes: 4, liked: false, replies: [] }
+    ]}
   ];
+
+  // Toggle like on community post — updates DOM in-place, no scroll reset
+  window.toggleLike = function(postIndex) {
+    const post = window.communityPosts[postIndex];
+    if (!post) return;
+    post.liked = !post.liked;
+    post.likes += post.liked ? 1 : -1;
+
+    // Find all heart buttons for this post index and update them in-place
+    document.querySelectorAll(`[data-like-index="${postIndex}"]`).forEach(btn => {
+      const icon = btn.querySelector('i');
+      if (post.liked) {
+        icon.className = 'fas fa-heart';
+        btn.classList.add('liked');
+      } else {
+        icon.className = 'far fa-heart';
+        btn.classList.remove('liked');
+      }
+      btn.lastChild.textContent = ' ' + post.likes;
+    });
+  };
+
+  // Open comments popup
+  window.openComments = function(postIndex) {
+    const post = window.communityPosts[postIndex];
+    if (!post) return;
+    window.state = window.state || {};
+    window.state.commentPostIndex = postIndex;
+    window.state.commentFilter = window.state.commentFilter || 'all';
+    window.renderCommentsPopup(postIndex, true);
+  };
+
+  // Toggle like on a single comment
+  window.toggleCommentLike = function(postIndex, commentIndex) {
+    const post = window.communityPosts[postIndex];
+    if (!post || !post.commentsData || !post.commentsData[commentIndex]) return;
+    const c = post.commentsData[commentIndex];
+    c.liked = !c.liked;
+    c.likes += c.liked ? 1 : -1;
+    // Update just the button in-place
+    const btn = document.querySelector(`[data-comment-like="${postIndex}-${commentIndex}"]`);
+    if (btn) {
+      const icon = btn.querySelector('i');
+      icon.className = c.liked ? 'fas fa-heart' : 'far fa-heart';
+      icon.style.color = c.liked ? '#ef4444' : '#999';
+      btn.querySelector('span').textContent = c.likes;
+    }
+  };
+
+  // Toggle reply on a single comment
+  window.toggleReplyBox = function(postIndex, commentIndex) {
+    const existing = document.getElementById(`replyBox-${commentIndex}`);
+    if (existing) { existing.remove(); return; }
+    // Remove any other open reply boxes
+    document.querySelectorAll('[id^="replyBox-"]').forEach(el => el.remove());
+    const commentEl = document.querySelector(`[data-comment-id="${postIndex}-${commentIndex}"]`);
+    if (!commentEl) return;
+    const replyBox = document.createElement('div');
+    replyBox.id = `replyBox-${commentIndex}`;
+    replyBox.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;padding-left:20px';
+    replyBox.innerHTML = `
+      <input id="replyInput-${commentIndex}" type="text" placeholder="Write a reply..." style="flex:1;padding:8px 12px;border-radius:16px;border:1.5px solid #eee;font-size:.78rem;font-family:inherit;outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#eee'">
+      <button onclick="window.submitReply(${postIndex},${commentIndex})" style="background:var(--accent);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:.75rem;flex-shrink:0"><i class="fas fa-paper-plane"></i></button>
+    `;
+    commentEl.appendChild(replyBox);
+    document.getElementById(`replyInput-${commentIndex}`).focus();
+  };
+
+  // Submit a reply to a comment
+  window.submitReply = function(postIndex, commentIndex) {
+    const input = document.getElementById(`replyInput-${commentIndex}`);
+    if (!input || !input.value.trim()) return;
+    const post = window.communityPosts[postIndex];
+    if (!post || !post.commentsData || !post.commentsData[commentIndex]) return;
+    const c = post.commentsData[commentIndex];
+    if (!c.replies) c.replies = [];
+    c.replies.push({ author: "@you", text: input.value.trim(), time: "Just now", likes: 0, liked: false });
+    window.renderCommentsPopup(postIndex, false);
+  };
+
+  // Build comment HTML
+  window.buildCommentHTML = function(comments, postIndex) {
+    if (comments.length === 0) return '<div style="text-align:center;padding:30px 0;color:#999;font-size:.85rem">No comments yet. Be the first!</div>';
+    
+    return comments.map((c, ci) => {
+      const origIndex = post => (post.commentsData || []).indexOf(c);
+      const cIdx = window.communityPosts[postIndex].commentsData.indexOf(c);
+      
+      const repliesHTML = (c.replies && c.replies.length > 0) ? c.replies.map(r => `
+        <div style="padding:8px 0 4px 20px;border-left:2px solid #eee;margin-top:4px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+            <span style="font-weight:700;font-size:.78rem;color:#111">${r.author}</span>
+            <span style="font-size:.65rem;color:#999">${r.time}</span>
+          </div>
+          <p style="margin:0;font-size:.78rem;color:#333;line-height:1.4">${r.text}</p>
+        </div>
+      `).join('') : '';
+
+      return `
+        <div data-comment-id="${postIndex}-${cIdx}" style="padding:12px 0;border-bottom:1px solid #f0f0f0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-weight:700;font-size:.85rem;color:#111">${c.author}</span>
+            <span style="font-size:.7rem;color:#999">${c.time}</span>
+          </div>
+          <p style="margin:0 0 6px;font-size:.82rem;color:#333;line-height:1.4">${c.text}</p>
+          <div style="display:flex;align-items:center;gap:14px">
+            <button data-comment-like="${postIndex}-${cIdx}" style="background:none;border:none;font-size:.75rem;color:${c.liked ? '#ef4444' : '#999'};cursor:pointer;padding:0;display:flex;align-items:center;gap:4px" onclick="window.toggleCommentLike(${postIndex},${cIdx})"><i class="${c.liked ? 'fas' : 'far'} fa-heart" style="color:${c.liked ? '#ef4444' : '#999'}"></i> <span>${c.likes}</span></button>
+            <button style="background:none;border:none;font-size:.75rem;color:#999;cursor:pointer;padding:0;display:flex;align-items:center;gap:4px" onclick="window.toggleReplyBox(${postIndex},${cIdx})"><i class="far fa-comment"></i> Reply</button>
+          </div>
+          ${repliesHTML}
+        </div>
+      `;
+    }).join('');
+  };
+
+  // Render comments popup
+  window.renderCommentsPopup = function(postIndex, isNewOpen) {
+    const post = window.communityPosts[postIndex];
+    if (!post) return;
+    const filter = (window.state && window.state.commentFilter) || 'all';
+    let comments = [...(post.commentsData || [])];
+
+    if (filter === 'relevant') {
+      comments.sort((a, b) => b.likes - a.likes);
+    } else if (filter === 'newest') {
+      comments.reverse();
+    }
+
+    const filterBtn = (id, label) => {
+      const isActive = filter === id;
+      return `<div onclick="window.state.commentFilter='${id}';window.renderCommentsPopup(${postIndex}, false)" style="padding:6px 14px;border-radius:20px;font-size:.75rem;font-weight:${isActive ? '700' : '600'};cursor:pointer;transition:all 0.2s;border:${isActive ? '2px solid var(--accent)' : '1px solid #ddd'};color:${isActive ? 'var(--accent)' : '#555'};background:#fff;flex-shrink:0">${label}</div>`;
+    };
+
+    const commentsHTML = window.buildCommentHTML(comments, postIndex);
+
+    const innerContent = `
+      <div onclick="window.closePopup('commentsPopup')" style="flex-shrink:0;height:15%;background:rgba(0,0,0,0.4);animation:fadeInBg .3s ease"></div>
+      <div style="flex:1;background:#fff;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:slideUpModal .3s ease">
+        <div style="padding:16px 20px 0;flex-shrink:0">
+          <div style="width:40px;height:4px;background:#ddd;border-radius:4px;margin:0 auto 12px"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <h3 style="margin:0;font-size:1.1rem;font-weight:700;color:#111">Comments <span style="font-weight:400;color:#999;font-size:.85rem">(${post.commentsData ? post.commentsData.length : 0})</span></h3>
+            <button onclick="window.closePopup('commentsPopup')" style="background:none;border:none;font-size:1.2rem;color:#999;cursor:pointer;padding:4px"><i class="fas fa-xmark"></i></button>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none">
+            ${filterBtn('all', 'All Comments')}
+            ${filterBtn('relevant', 'Most Relevant')}
+            ${filterBtn('newest', 'Newest')}
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:0 20px;scrollbar-width:none;overscroll-behavior:contain">
+          ${commentsHTML}
+        </div>
+        <div style="flex-shrink:0;padding:12px 16px;border-top:1px solid #f0f0f0;display:flex;align-items:center;gap:10px;background:#fff">
+          <div style="width:32px;height:32px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;color:#999;font-size:.8rem;flex-shrink:0"><i class="fas fa-user"></i></div>
+          <input id="commentInput" type="text" placeholder="Write a comment..." style="flex:1;padding:10px 14px;border-radius:20px;border:1.5px solid #eee;font-size:.82rem;font-family:inherit;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='#eee'">
+          <button onclick="window.submitComment(${postIndex})" style="background:var(--accent);border:none;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:.9rem;flex-shrink:0;box-shadow:0 2px 8px rgba(20,184,166,0.3)"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    `;
+
+    const existing = document.getElementById('commentsPopup');
+    if (existing) {
+      // Just swap inner content — no animation, no scroll reset
+      existing.innerHTML = innerContent;
+    } else {
+      const popup = document.createElement('div');
+      popup.id = 'commentsPopup';
+      // Match current scroll position so popup appears visible
+      const scrollPos = document.getElementById('phoneScreen').scrollTop;
+      popup.style.cssText = `position:absolute;top:${scrollPos}px;left:0;right:0;bottom:-${scrollPos}px;z-index:999;display:flex;flex-direction:column`;
+      popup.innerHTML = innerContent;
+      const phoneScreen = document.getElementById('phoneScreen');
+      phoneScreen.style.overflowY = 'hidden'; // Lock background scroll
+      phoneScreen.appendChild(popup);
+
+      // Hide Floating Action Button while popup is open to prevent overlap
+      document.querySelectorAll('.fab-container').forEach(e => {
+        e.style.opacity = '0';
+        e.style.pointerEvents = 'none';
+        e.style.transition = 'opacity 0.2s';
+      });
+    }
+  };
+
+  // Submit a new comment
+  window.submitComment = function(postIndex) {
+    const input = document.getElementById('commentInput');
+    if (!input || !input.value.trim()) return;
+    const post = window.communityPosts[postIndex];
+    if (!post) return;
+    if (!post.commentsData) post.commentsData = [];
+    post.commentsData.push({
+      author: "@you",
+      text: input.value.trim(),
+      time: "Just now",
+      likes: 0,
+      liked: false,
+      replies: []
+    });
+    input.value = '';
+    window.renderCommentsPopup(postIndex, false);
+  };
+
+  // Close popup helper
+  window.closePopup = function(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+    document.getElementById('phoneScreen').style.overflowY = 'auto';
+    
+    // Restore Floating Action Button if it was hidden
+    document.querySelectorAll('.fab-container').forEach(e => {
+      e.style.opacity = '1';
+      e.style.pointerEvents = 'auto';
+    });
+  };
+
+  // Show Toast Message
+  window.showToast = function(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px 24px;border-radius:30px;font-size:.85rem;font-weight:600;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.2);animation:slideUpModal 0.3s ease;white-space:nowrap;font-family:var(--font-base)';
+    const phoneScreen = document.getElementById('phoneScreen');
+    if(phoneScreen) {
+      phoneScreen.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transition = 'opacity 0.3s';
+        setTimeout(() => t.remove(), 300);
+      }, 2500);
+    }
+  };
+
+  // Open Share Popup
+  window.openSharePopup = function() {
+    const existing = document.getElementById('sharePopup');
+    if (existing) existing.remove();
+
+    const popup = document.createElement('div');
+    popup.id = 'sharePopup';
+    popup.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:999;display:flex;flex-direction:column;justify-content:flex-end;animation:slideUpModal .3s ease';
+    
+    // The share options
+    const options = [
+      { icon: 'fa-link', label: 'Copy Link', color: '#666', bg: '#f5f5f5' },
+      { icon: 'fa-facebook-messenger', label: 'Messenger', color: '#00B2FF', bg: 'rgba(0,178,255,0.1)', fab: true },
+      { icon: 'fa-facebook', label: 'Facebook', color: '#1877F2', bg: 'rgba(24,119,242,0.1)', fab: true },
+      { icon: 'fa-telegram', label: 'Telegram', color: '#0088cc', bg: 'rgba(0,136,204,0.1)', fab: true },
+      { icon: 'fa-instagram', label: 'Instagram', color: '#E1306C', bg: 'rgba(225,48,108,0.1)', fab: true }
+    ];
+
+    const optionsHTML = options.map(opt => `
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;min-width:64px;flex-shrink:0" onclick="window.closePopup('sharePopup'); window.showToast('Shared to ' + '${opt.label}')">
+        <div style="width:48px;height:48px;border-radius:50%;background:${opt.bg};color:${opt.color};display:flex;align-items:center;justify-content:center;font-size:1.4rem">
+          <i class="${opt.fab ? 'fa-brands' : 'fas'} ${opt.icon}"></i>
+        </div>
+        <span style="font-size:.7rem;color:#555;font-weight:500;text-align:center">${opt.label}</span>
+      </div>
+    `).join('');
+
+    popup.innerHTML = `
+      <div onclick="window.closePopup('sharePopup')" style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:-1;animation:fadeInBg .3s ease"></div>
+      <div style="background:#fff;border-radius:20px 20px 0 0;padding:20px;box-shadow:0 -4px 30px rgba(0,0,0,.1);display:flex;flex-direction:column;pointer-events:auto;animation:slideUpModal .3s ease">
+        <div style="width:40px;height:4px;background:#ddd;border-radius:4px;margin:0 auto 16px"></div>
+        <h3 style="margin:0 0 16px;font-size:1.1rem;font-weight:700;color:#111;text-align:center">Share to</h3>
+        <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;overscroll-behavior:contain">
+          ${optionsHTML}
+        </div>
+        <button onclick="window.closePopup('sharePopup')" style="margin-top:16px;width:100%;padding:14px;border:none;border-radius:12px;background:#f5f5f5;color:#333;font-size:.95rem;font-weight:600;cursor:pointer">Cancel</button>
+      </div>
+    `;
+
+    const phoneScreen = document.getElementById('phoneScreen');
+    const scrollPos = phoneScreen.scrollTop;
+    popup.style.cssText = `position:absolute;top:${scrollPos}px;left:0;right:0;bottom:-${scrollPos}px;z-index:999;display:flex;flex-direction:column;justify-content:flex-end`;
+    phoneScreen.style.overflowY = 'hidden';
+    phoneScreen.appendChild(popup);
+
+    // Hide Floating Action Button while popup is open to prevent overlap
+    document.querySelectorAll('.fab-container').forEach(e => {
+      e.style.opacity = '0';
+      e.style.pointerEvents = 'none';
+      e.style.transition = 'opacity 0.2s';
+    });
+  };
 
   window.submitReport = function() {
     const typeEl = document.getElementById("incidentType");
@@ -1265,8 +1559,9 @@
       author: "@you",
       time: "Just now",
       likes: 0,
-      comments: 0,
-      img: "assets/community2.png"
+      liked: false,
+      img: "assets/community2.png",
+      commentsData: []
     });
     navigateTo('report-success');
   };

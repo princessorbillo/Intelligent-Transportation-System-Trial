@@ -471,3 +471,18 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .hover-green { transition: border-color 0.2s, color 0.2s; cursor: pointer; }
 .hover-green:hover { border-color: var(--accent) !important; }
 
+/* --- Liked Heart State --- */
+.community-action.liked { color: #ef4444 !important; }
+.community-action.liked i { color: #ef4444; }
+.community-action.liked:hover { color: #dc2626 !important; }
+
+/* --- Comments Popup Animation --- */
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

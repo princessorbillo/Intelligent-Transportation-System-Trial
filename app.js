@@ -1,4 +1,4 @@
-// ===== Easy-Go Mobile Prototype =====
+// ===== Tara-Go! Mobile Prototype =====
 (function () {
   "use strict";
 
@@ -13,10 +13,17 @@
     },
     {
       id: "register", name: "User Registration",
-      desc: "New users fill in personal details, accept terms, and create their Easy-Go account.",
+      desc: "New users fill in personal details, accept terms, and create their Tara-Go! account.",
       components: ["First Name", "Last Name", "Phone Input", "Terms Checkbox", "Register Button"],
-      interactions: ["Register → Vehicle Profiling", "Back → Login"],
-      flow: ["Login", "Register", "Vehicle Profiling"]
+      interactions: ["Register → Choose Journey", "Back → Login"],
+      flow: ["Login", "Register", "Choose Journey"]
+    },
+    {
+      id: "select-role", name: "Choose Journey",
+      desc: "Users select if they are a driver or a commuter to personalize their experience.",
+      components: ["Driver Button", "Commuter Button", "Back Button"],
+      interactions: ["Driver → Vehicle Profiling", "Commuter → Home Screen"],
+      flow: ["Register", "Choose Journey", "Vehicle Profiling"]
     },
     {
       id: "home", name: "Home",
@@ -68,7 +75,14 @@
       flow: ["Community", "Report Incident", "Feed"]
     },
     {
-      id: "ranking", name: "My Points",
+      id: "ranking", name: "Community Leaderboard",
+      desc: "Leaderboard showing the top users with the most points.",
+      components: ["Top Contributors List"],
+      interactions: ["Back → Home"],
+      flow: ["Home", "Community Leaderboard"]
+    },
+    {
+      id: "my-points", name: "My Points",
       desc: "Dashboard showing the user's accumulated points, upcoming rewards, and recent contribution history.",
       components: ["Total Points", "Next Reward", "Contribution History"],
       interactions: ["Back → Home"],
@@ -113,12 +127,26 @@
       id: "planner", name: "Planner",
       desc: "Quick travel check with live route conditions, ETA estimates, and commute costs.",
       components: ["Quick Travel Check", "Categorized Dashboard", "From/To Inputs", "Live Routes", "AI Tips"],
-      interactions: ["Check Conditions → Results", "Route → Navigation"],
-      flow: ["Home", "Planner", "Navigation"]
+      interactions: ["Check Conditions → Travel Conditions", "Route → Navigation"],
+      flow: ["Home", "Planner", "Travel Conditions"]
+    },
+    {
+      id: "travel-conditions", name: "Travel Conditions",
+      desc: "Shows the estimated time and fastest route per transport category after checking conditions.",
+      components: ["Header", "Transport List (Car, Train, Bike, Walk)"],
+      interactions: ["Transport Option → Navigation", "Back → Planner"],
+      flow: ["Planner", "Travel Conditions", "Navigation"]
+    },
+    {
+      id: "safe-zones-list", name: "Safe Zones List",
+      desc: "Comprehensive list of nearby safe zones for parking or resting.",
+      components: ["Header", "Safe Zone List", "Location Item"],
+      interactions: ["Location → Navigation", "Back → Planner"],
+      flow: ["Planner", "Safe Zones List", "Navigation"]
     },
     {
       id: "ai-chat", name: "AI Chat",
-      desc: "Easy-Go AI Assistant - AI chatbot for route advice, traffic updates, and commute planning.",
+      desc: "Tara-Go! AI Assistant - AI chatbot for route advice, traffic updates, and commute planning.",
       components: ["Chat Header", "Suggested Topics", "Message Input", "Send Button"],
       interactions: ["Topic → Chat Response", "Send → AI Reply"],
       flow: ["Home", "AI Chat", "Response"]
@@ -143,6 +171,13 @@
       components: ["Issue Type Select", "Description Textarea", "Screenshot Upload", "Submit Button"],
       interactions: ["Submit → Home"],
       flow: ["Home", "Side Menu", "Report Problem"]
+    },
+    {
+      id: "report-success", name: "Report Success",
+      desc: "Confirmation screen showing the report was successfully submitted.",
+      components: ["Check Icon", "Success Message", "Subtext"],
+      interactions: ["Auto Redirect → Home"],
+      flow: ["Report", "Success", "Home"]
     },
     {
       id: "verification", name: "Verification",
@@ -187,7 +222,7 @@
         </div>
         <button class="m-btn m-btn-dark" onclick="navigateTo('home')">Login</button>
         <div class="m-divider"></div>
-        <p class="m-text-sm m-text-center">Don't have a Easy-Go account yet?</p>
+        <p class="m-text-sm m-text-center">Don't have a Tara-Go! account yet?</p>
         <button class="m-btn m-btn-outline" onclick="navigateTo('register')">Create an account</button>
         <div style="display:flex; justify-content:center; gap:40px; margin-top:30px; margin-bottom:20px; color:var(--text3); font-size:0.75rem;">
           <button style="background:none; border:none; color:inherit; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px;"><i class="fas fa-circle-info" style="font-size:1.2rem;"></i><span>About</span></button>
@@ -198,7 +233,7 @@
     register: () => `
       <div class="m-screen" style="background:#fff">
         <div class="register-header">
-          <h1 style="font-family:var(--font-display)">Easy-Go..</h1>
+          <h1 style="font-family:var(--font-display)">Tara-Go!..</h1>
           <p>Let's Get Started!</p>
         </div>
         <div class="m-input-group"><label class="m-input-label">First Name</label><input class="m-input" placeholder="Juan"></div>
@@ -207,25 +242,28 @@
           <div style="display:flex;gap:8px"><div class="login-country" style="padding:14px 10px">+63</div><input class="m-input" placeholder="9XX XXX XXXX" style="flex:1"></div>
         </div>
 
-        <div style="padding:0 24px;margin:16px 0;display:flex;align-items:center;gap:10px">
-          <input type="checkbox" id="commuterCheck" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer" onclick="document.getElementById('vehicleFields').style.display = this.checked ? 'none' : 'block'; document.getElementById('commuterLoginBtn').style.display = this.checked ? 'block' : 'none';">
-          <label for="commuterCheck" style="font-size:.85rem;color:#333;font-weight:600;cursor:pointer">I am a commuter (No vehicle)</label>
-        </div>
-
-        <div id="vehicleFields">
-          <div class="m-input-group"><label class="m-input-label">Car Type</label><select class="m-select"><option>Type of Vehicle</option><option>Sedan</option><option>SUV</option><option>Motorcycle</option><option>Truck</option></select></div>
-          <div class="m-input-group"><label class="m-input-label">Plate Number</label><input class="m-input" placeholder="ABC 1234"></div>
-        </div>
-
         <div class="m-divider"></div>
-        <p class="register-terms">By creating a Easy-Go account, you agree to the <a href="#">Terms and Conditions</a> and <a href="#">Community Rules</a>.</p>
-        <button class="m-btn m-btn-dark" onclick="navigateTo('home')">Create Account</button>
+        <p class="register-terms">By creating a Tara-Go! account, you agree to the <a href="#">Terms and Conditions</a> and <a href="#">Community Rules</a>.</p>
+        <button class="m-btn m-btn-dark" onclick="navigateTo('select-role')">Create Account</button>
         <div class="m-divider"></div>
-        <div style="text-align:center; font-size:0.85rem; color:#666; margin:16px 0 16px;">
-          Already have an Easy-Go account? 
-          <span style="color:var(--accent); font-weight:600; cursor:pointer;" onclick="navigateTo('login')">Log In</span>
-        </div>
-        <button id="commuterLoginBtn" class="m-btn m-btn-outline" style="display:none; margin-bottom:24px;" onclick="navigateTo('login')">Log In</button>
+        <p class="m-text-sm m-text-center" style="margin-bottom:8px; color:#666;">Already have a Tara-Go! account?</p>
+        <button class="m-btn m-btn-outline" onclick="navigateTo('login')">Log In</button>
+      </div>`,
+
+    "select-role": () => `
+      <div class="m-screen" style="background:#fafafa; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; position:relative;">
+        <button class="m-back" onclick="navigateTo('register')" style="position:absolute; top:20px; left:20px;"><i class="fas fa-chevron-left"></i> Back</button>
+        <div style="font-size:3.5rem; color:var(--accent); margin-bottom:20px; margin-top:20px;"><i class="fas fa-route"></i></div>
+        <h2 style="font-family:var(--font-display); font-size:1.6rem; color:#111; margin-bottom:8px;">Choose your journey</h2>
+        <p style="color:#555; font-size:.9rem; margin-bottom:40px; line-height:1.4;">Select how you typically travel so we can personalize your Tara-Go! experience.</p>
+        
+        <button class="m-btn m-btn-primary" style="margin-bottom:16px; padding:16px; font-size:1.1rem; display:flex; align-items:center; justify-content:center; gap:12px; box-shadow:0 8px 16px rgba(20,184,166,0.2); width:100%; border-radius:12px;" onclick="navigateTo('vehicle')">
+          <i class="fas fa-car" style="font-size:1.2rem;"></i> I am a Driver
+        </button>
+        
+        <button class="m-btn m-btn-outline" style="padding:16px; font-size:1.1rem; display:flex; align-items:center; justify-content:center; gap:12px; color:#555; border-color:#ccc; width:100%; border-radius:12px;" onclick="navigateTo('home')">
+          <i class="fas fa-bus" style="font-size:1.2rem;"></i> I am a Commuter
+        </button>
       </div>`,
 
     home: () => {
@@ -235,20 +273,47 @@
         { name: "Ana Reyes", score: 1920 }
       ];
       const posClass = (i) => i === 0 ? "gold" : i === 1 ? "silver" : "bronze";
+      
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      // Sync date and time to PH time (Asia/Manila)
+      const phTimeString = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+      const phDate = new Date(phTimeString);
+      const currentDay = days[phDate.getDay()];
+      const hour = phDate.getHours();
+      let greeting = "Good evening";
+      if (hour < 12) greeting = "Good morning";
+      else if (hour < 18) greeting = "Good afternoon";
+
+      let codingDigits = "None";
+      if (currentDay === "Monday") codingDigits = "1 & 2";
+      else if (currentDay === "Tuesday") codingDigits = "3 & 4";
+      else if (currentDay === "Wednesday") codingDigits = "5 & 6";
+      else if (currentDay === "Thursday") codingDigits = "7 & 8";
+      else if (currentDay === "Friday") codingDigits = "9 & 0";
+
       return `
       <div class="m-screen" style="background:#fafafa;position:relative;height:100%;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="flex-shrink:0;position:relative;z-index:10">
+        <div style="flex-shrink:0;position:relative;z-index:10;background:#fafafa;">
           <div class="home-greeting" style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:20px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <button onclick="document.getElementById('mSideMenu').classList.add('open')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-bars"></i></button>
             <div style="flex:1">
-              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
-              <h1 style="margin-top:0;color:#fff">Good morning, User!</h1>
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Tara-Go!</span>
+              <h1 style="margin-top:0;color:#fff">${greeting}, User!</h1>
             </div>
             <button onclick="navigateTo('notifications')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px;margin-top:4px"><i class="fas fa-bell"></i></button>
           </div>
         </div>
         
         <div style="flex:1;overflow-y:auto;padding-bottom:100px;scrollbar-width:none;">
+          <div class="gray-container" style="margin:16px; padding:16px; border-radius:12px; display:flex; align-items:flex-start; gap:12px; background: ${codingDigits !== "None" ? 'rgba(239, 68, 68, 0.05)' : 'rgba(20, 184, 166, 0.05)'}; border: 1px solid ${codingDigits !== "None" ? '#fca5a5' : '#99f6e4'};">
+            <div style="font-size:1.8rem; color:${codingDigits !== "None" ? '#ef4444' : 'var(--accent)'}; margin-top:4px;"><i class="fas fa-car-on"></i></div>
+            <div style="flex:1;">
+              <h4 style="margin:0; font-size:.95rem; color:#111;">Number Coding Scheme</h4>
+              <p style="margin:4px 0 0; font-size:.8rem; color:#444;">Today is <strong>${currentDay}</strong>. ${codingDigits !== "None" ? `Vehicles with plates ending in <strong style="color:#ef4444; font-size:.9rem;">${codingDigits}</strong> are coded today.` : '<strong>Coding is suspended today.</strong>'}</p>
+              ${codingDigits !== "None" ? `<div style="margin-top:10px; font-size:.7rem; color:#555; background:rgba(0,0,0,0.04); padding:10px; border-radius:8px;"><strong>Hours:</strong> 7AM-10AM, 5PM-8PM (Window: 10AM-5PM)<br><strong>Exempted:</strong> Hybrid/Electric, Motorcycles, PUVs.<br><span style="color:#ef4444; font-style:italic;">*Note: Makati has no window hours (7AM-7PM).</span></div>` : ''}
+            </div>
+          </div>
+
         <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center">
           <span>Top Contributors</span>
           <span style="color:var(--accent);cursor:pointer;text-transform:none;letter-spacing:0" onclick="navigateTo('ranking')">View All</span>
@@ -264,40 +329,29 @@
         </div>
 
         <div style="padding:8px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Community Feed</div>
+        ${window.communityPosts ? window.communityPosts.slice(0,2).map(p => `
         <div class="community-post gray-container">
-          <img src="assets/community1.png" alt="Community Post" class="community-post-img">
+          <img src="${p.img}" alt="Community Post" class="community-post-img">
           <div class="community-post-body">
-            <div class="community-post-title">Clean road improvements on Main St</div>
-            <div class="community-post-meta">Posted by @user123 • 2h ago</div>
+            <div class="community-post-title">${p.title}</div>
+            <div class="community-post-meta">Posted by ${p.author} • ${p.time}</div>
             <div class="community-post-actions">
-              <button class="community-action"><i class="far fa-heart"></i> 24</button>
-              <button class="community-action"><i class="far fa-comment"></i> 8</button>
+              <button class="community-action"><i class="far fa-heart"></i> ${p.likes}</button>
+              <button class="community-action"><i class="far fa-comment"></i> ${p.comments}</button>
               <button class="community-action"><i class="far fa-share-from-square"></i></button>
             </div>
           </div>
         </div>
-        <div class="community-post gray-container">
-          <img src="assets/community2.png" alt="Community Post" class="community-post-img">
-          <div class="community-post-body">
-            <div class="community-post-title">Pothole reported on Elm Avenue</div>
-            <div class="community-post-meta">Posted by @driver456 • 5h ago</div>
-            <div class="community-post-actions">
-              <button class="community-action"><i class="far fa-heart"></i> 41</button>
-              <button class="community-action"><i class="far fa-comment"></i> 15</button>
-              <button class="community-action"><i class="far fa-share-from-square"></i></button>
-            </div>
-          </div>
-        </div>
+        `).join("") : ''}
         </div>
       </div>`;
     },
 
     vehicle: () => `
       <div class="m-screen" style="background:#fff">
-        <button class="m-back" onclick="navigateTo('register')"><i class="fas fa-chevron-left"></i> Back</button>
+        <button class="m-back" onclick="navigateTo('select-role')"><i class="fas fa-chevron-left"></i> Back</button>
         <div class="vehicle-title"><h2>Vehicle Profiling</h2></div>
-        <div class="m-input-group"><label class="m-input-label">Type</label><select class="m-select"><option>Type of Vehicle</option><option>Motorcycle</option><option>Sedan</option><option>SUV</option><option>Truck</option></select></div>
-        <div class="m-input-group"><label class="m-input-label">Smoke / Emission Clearance</label><input class="m-input" placeholder="Vehicle Smoke Clearance Info"></div>
+        <div class="m-input-group"><label class="m-input-label">Type</label><select class="m-select"><option>Type of Vehicle</option><option>Electric/Hybrid</option><option>Motorcycle</option><option>Sedan</option><option>SUV</option><option>Truck</option></select></div>
         <div class="m-input-group"><label class="m-input-label">Plate Number</label><input class="m-input" placeholder="ABC 1234"></div>
         <div style="height:40px"></div>
         <button class="m-btn m-btn-outline" style="border-style:dashed">+ Add another vehicle</button>
@@ -311,7 +365,7 @@
           <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <button onclick="navigateTo('planner')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-arrow-left"></i></button>
             <div style="flex:1">
-              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Tara-Go!..</span>
               <h1 style="margin-top:0;color:#fff">Routes</h1>
             </div>
             <button style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px;margin-top:4px" onclick="navigateTo('routes-search')"><i class="fas fa-magnifying-glass"></i></button>
@@ -361,6 +415,15 @@
           <img src="assets/map.png" alt="Navigation Map" style="width:100%;height:calc(100% + 80px);margin-top:-80px;object-fit:cover;">
           <div class="map-pin user" style="top:60%;left:40%"></div>
           <div class="map-pin dest" style="top:25%;right:20%"></div>
+          <div style="position:absolute; top:35%; left:66%; width:6px; height:80px; background:#ef4444; border-radius:3px; box-shadow:0 0 8px rgba(239,68,68,0.6); transform:translate(-50%, -50%)"></div>
+          <div style="position:absolute; top:50%; left:32%; width:80px; height:6px; background:#f59e0b; border-radius:3px; box-shadow:0 0 8px rgba(245,158,11,0.6); transform:translate(-50%, -50%)"></div>
+          <div style="position:absolute; top:63%; left:41%; width:24px; height:24px; background:#9333ea; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff; transform:translate(-50%, -50%)"><i class="fas fa-road-spikes"></i></div>
+          <div style="position:absolute; top:78.5%; left:41%; width:24px; height:24px; background:#3b82f6; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff; transform:translate(-50%, -50%)"><i class="fas fa-water"></i></div>
+          <div style="position:absolute; top:25%; left:66%; width:24px; height:24px; background:#eab308; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff; transform:translate(-50%, -50%)"><i class="fas fa-truck-medical"></i></div>
+          <div style="position:absolute; top:50%; left:80%; display:flex; flex-direction:column; align-items:center; transform:translate(-50%, -50%)">
+            <div style="background:#333; color:#fff; padding:2px 4px; border-radius:4px; font-size:.5rem; margin-bottom:2px; font-weight:bold; white-space:nowrap"><i class="fas fa-times" style="color:#ef4444; margin-right:4px"></i>Road Closed<i class="fas fa-times" style="color:#ef4444; margin-left:4px"></i></div>
+            <div style="width:24px; height:24px; background:#444; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff"><i class="fas fa-trowel-bricks"></i></div>
+          </div>
           <div class="nav-footer gray-container" style="position:absolute;bottom:0;left:0;right:0;padding:20px;padding-bottom:30px;border-radius:20px 20px 0 0;box-shadow:0 -4px 12px rgba(0,0,0,0.1);z-index:10;display:flex;justify-content:space-between;align-items:center;">
             <div class="nav-eta" style="color:#111">
               <h3 style="margin:0;font-size:1.4rem;font-weight:700">67 min</h3>
@@ -392,6 +455,15 @@
           <img src="assets/map.png" alt="Navigation Map" style="width:100%;height:calc(100% + 80px);margin-top:-80px;object-fit:cover;">
           <div class="map-pin user" style="top:60%;left:40%"></div>
           <div class="map-pin dest" style="top:25%;right:20%"></div>
+          <div style="position:absolute; top:35%; left:66%; width:6px; height:80px; background:#ef4444; border-radius:3px; box-shadow:0 0 8px rgba(239,68,68,0.6); transform:translate(-50%, -50%)"></div>
+          <div style="position:absolute; top:50%; left:32%; width:80px; height:6px; background:#f59e0b; border-radius:3px; box-shadow:0 0 8px rgba(245,158,11,0.6); transform:translate(-50%, -50%)"></div>
+          <div style="position:absolute; top:63%; left:41%; width:24px; height:24px; background:#9333ea; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff; transform:translate(-50%, -50%)"><i class="fas fa-road-spikes"></i></div>
+          <div style="position:absolute; top:78.5%; left:41%; width:24px; height:24px; background:#3b82f6; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff; transform:translate(-50%, -50%)"><i class="fas fa-water"></i></div>
+          <div style="position:absolute; top:25%; left:66%; width:24px; height:24px; background:#eab308; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff; transform:translate(-50%, -50%)"><i class="fas fa-truck-medical"></i></div>
+          <div style="position:absolute; top:50%; left:80%; display:flex; flex-direction:column; align-items:center; transform:translate(-50%, -50%)">
+            <div style="background:#333; color:#fff; padding:2px 4px; border-radius:4px; font-size:.5rem; margin-bottom:2px; font-weight:bold; white-space:nowrap"><i class="fas fa-times" style="color:#ef4444; margin-right:4px"></i>Road Closed<i class="fas fa-times" style="color:#ef4444; margin-left:4px"></i></div>
+            <div style="width:24px; height:24px; background:#444; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.3); border:2px solid #fff"><i class="fas fa-trowel-bricks"></i></div>
+          </div>
           
           <div class="nav-footer" style="position:absolute;bottom:0;left:0;right:0;padding:20px;padding-bottom:30px;border-radius:20px 20px 0 0;box-shadow:0 -4px 12px rgba(0,0,0,0.1);z-index:10;display:flex;flex-direction:column;gap:10px;align-items:stretch;background:#fff">
             <div style="display:flex;align-items:center;justify-content:space-between">
@@ -421,30 +493,20 @@
     community: () => `
       <div class="m-screen" style="background:#fafafa">
         <div class="community-header"><h2>Community</h2><button style="background:none;border:none;font-size:1.1rem;color:var(--accent);cursor:pointer" onclick="navigateTo('community-report')"><i class="fas fa-plus-circle"></i></button></div>
+        ${window.communityPosts ? window.communityPosts.map(p => `
         <div class="community-post">
-          <img src="assets/community1.png" alt="Community Post" class="community-post-img">
+          <img src="${p.img}" alt="Community Post" class="community-post-img">
           <div class="community-post-body">
-            <div class="community-post-title">Clean road improvements on Main St</div>
-            <div class="community-post-meta">Posted by @user123 • 2h ago</div>
+            <div class="community-post-title">${p.title}</div>
+            <div class="community-post-meta">Posted by ${p.author} • ${p.time}</div>
             <div class="community-post-actions">
-              <button class="community-action"><i class="far fa-heart"></i> 24</button>
-              <button class="community-action"><i class="far fa-comment"></i> 8</button>
+              <button class="community-action"><i class="far fa-heart"></i> ${p.likes}</button>
+              <button class="community-action"><i class="far fa-comment"></i> ${p.comments}</button>
               <button class="community-action"><i class="far fa-share-from-square"></i></button>
             </div>
           </div>
         </div>
-        <div class="community-post">
-          <img src="assets/community2.png" alt="Community Post" class="community-post-img">
-          <div class="community-post-body">
-            <div class="community-post-title">Pothole reported on Elm Avenue</div>
-            <div class="community-post-meta">Posted by @driver456 • 5h ago</div>
-            <div class="community-post-actions">
-              <button class="community-action"><i class="far fa-heart"></i> 41</button>
-              <button class="community-action"><i class="far fa-comment"></i> 15</button>
-              <button class="community-action"><i class="far fa-share-from-square"></i></button>
-            </div>
-          </div>
-        </div>
+        `).join("") : ''}
       </div>`,
 
     "community-report": () => `
@@ -452,11 +514,25 @@
         <button class="m-back" onclick="navigateTo('home')"><i class="fas fa-chevron-left"></i> Back</button>
         <div style="padding:0 24px"><h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#111">Community</h2></div>
         <div class="report-upload"><i class="fas fa-cloud-arrow-up"></i><span>Upload Image</span></div>
-        <div class="m-input-group"><label class="m-input-label">Incident</label><select class="m-select"><option>Type of Incident</option><option>Pothole</option><option>Flood</option><option>Accident</option><option>Road Block</option></select></div>
-        <div class="m-input-group"><label class="m-input-label">Location</label><select class="m-select"><option>Current Location</option><option>Custom Location</option></select></div>
+        <div class="m-input-group"><label class="m-input-label">Incident</label><select id="incidentType" class="m-select" onchange="document.getElementById('customIncidentGroup').style.display = this.value === 'Custom' ? 'block' : 'none'"><option>Type of Incident</option><option>Pothole</option><option>Flood</option><option>Accident</option><option>Road Block</option><option>Custom</option></select></div>
+        <div id="customIncidentGroup" class="m-input-group" style="display:none; margin-top:-10px;"><input id="customIncidentText" class="m-input" placeholder="Specify custom incident type..."></div>
+        <div class="m-input-group"><label class="m-input-label">Location</label><select id="incidentLoc" class="m-select"><option>Current Location</option><option>Custom Location</option></select></div>
         <div class="m-input-group"><label class="m-input-label">Description</label><textarea class="m-input" rows="4" placeholder="Describe the incident..." style="resize:none"></textarea></div>
-        <button class="m-btn m-btn-primary" onclick="navigateTo('community')">Submit</button>
+        <button class="m-btn m-btn-primary" onclick="submitReport()">Submit</button>
       </div>`,
+
+    "report-success": () => {
+      setTimeout(() => { if(currentIndex === screens.findIndex(s=>s.id==="report-success")) navigateTo('home'); }, 3000);
+      return `
+      <div class="m-screen" style="background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;">
+        <div style="width:100px;height:100px;background:rgba(20,184,166,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:3rem;margin-bottom:24px;box-shadow:0 0 30px rgba(20,184,166,0.2)">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2 style="font-family:var(--font-display);font-size:1.8rem;color:#111;margin-bottom:12px;line-height:1.2">Your report has been submitted!</h2>
+        <p style="color:#666;font-size:1rem;line-height:1.5;margin-bottom:40px">Thanks for contributing to the Tara-Go! community. Your report helps keep everyone safe on the road.</p>
+        <button class="m-btn m-btn-outline" style="width:100%;max-width:200px" onclick="navigateTo('home')">Back to Home</button>
+      </div>`;
+    },
 
     "my-reports": () => `
       <div class="m-screen" style="background:#fafafa;display:flex;flex-direction:column;height:100%;">
@@ -511,7 +587,7 @@
           <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <button onclick="navigateTo('home')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-arrow-left"></i></button>
             <div style="flex:1">
-              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Tara-Go!..</span>
               <h1 style="margin-top:0;color:#fff;font-size:1.5rem">Notification Center</h1>
             </div>
             <div style="background:rgba(255,255,255,0.2);padding:6px 10px;border-radius:12px;font-size:.7rem;font-weight:600;cursor:pointer;margin-top:6px;transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">Mark all as Read</div>
@@ -569,7 +645,7 @@
       <div class="m-screen" style="background:#fff">
         <button class="m-back" onclick="navigateTo('home')"><i class="fas fa-chevron-left"></i> Back</button>
         <div style="padding:0 24px"><h2 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#111">Account Verification</h2></div>
-        <p style="padding:0 24px;font-size:.85rem;color:#666;margin-bottom:20px">Please verify your identity to unlock all Easy-Go features.</p>
+        <p style="padding:0 24px;font-size:.85rem;color:#666;margin-bottom:20px">Please verify your identity to unlock all Tara-Go! features.</p>
         
         <div style="padding:0 24px; font-size:0.85rem; font-weight:600; color:#333; margin-bottom:8px;">1. Upload Valid ID</div>
         <div class="report-upload" style="margin: 0 24px 20px; height: 120px;">
@@ -584,7 +660,46 @@
         <div style="padding:10px 24px"><button class="m-btn m-btn-primary" onclick="navigateTo('home')">Submit for Review</button></div>
       </div>`,
 
-    ranking: () => `
+    ranking: () => {
+      const users = [
+        { name: "Maria Santos", score: 2450 },
+        { name: "Juan Cruz", score: 2180 },
+        { name: "Ana Reyes", score: 1920 },
+        { name: "Mark Lim", score: 1850 },
+        { name: "Sarah Lee", score: 1720 },
+        { name: "David Tan", score: 1640 },
+        { name: "Pedro Gomez", score: 1510 },
+        { name: "You", score: 500 }
+      ];
+      const posClass = (i) => i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
+
+      return `
+      <div class="m-screen" style="background:#f5f7f5;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div style="margin-top:-54px;padding-top:70px;padding-bottom:20px;padding-left:20px;padding-right:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:0 0 24px 24px;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
+            <div style="font-size:1.2rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center"><i class="fas fa-arrow-left" style="cursor:pointer;margin-right:12px;font-size:1.4rem" onclick="navigateTo('home')"></i> Community Leaderboard</div>
+            <p style="font-size:.85rem;opacity:0.9;margin:0;">See who is helping the community the most.</p>
+          </div>
+        </div>
+        
+        <div style="flex:1;overflow-y:auto;padding:20px;padding-bottom:100px;scrollbar-width:none">
+          <div class="ranking-list">
+            ${users.map((u, i) => `
+              <div class="ranking-item gray-container" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;background:${u.name === 'You' ? 'rgba(20, 184, 166, 0.1)' : '#fff'};border:${u.name === 'You' ? '2px solid var(--accent)' : 'none'};box-shadow:0 4px 10px rgba(0,0,0,0.02)">
+                <div class="ranking-pos ${posClass(i)}" style="width:30px;height:30px;font-size:.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;font-weight:700;${i>2 && u.name !== 'You' ? 'background:#f0f0f0;color:#888;' : ''}${u.name === 'You' ? 'background:var(--accent);color:#fff;' : ''}">${u.name === 'You' ? '42' : i + 1}</div>
+                <div class="ranking-info" style="flex:1">
+                  <h4 style="margin:0;font-size:1rem;color:#111">${u.name}</h4>
+                  ${i < 3 ? '<span style="font-size:.7rem;color:var(--accent2);font-weight:600"><i class="fas fa-medal"></i> Top Contributor</span>' : ''}
+                </div>
+                <div class="ranking-score" style="font-size:.9rem;font-weight:800;color:var(--accent)">${u.score.toLocaleString()} <span style="font-size:.7rem;color:#888;font-weight:600">pts</span></div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>`;
+    },
+
+    "my-points": () => `
       <div class="m-screen" style="background:#fff;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative">
         <div style="flex-shrink:0;position:relative;z-index:10">
           <div style="margin-top:-54px;padding-top:70px;padding-bottom:60px;padding-left:20px;padding-right:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:0 0 24px 24px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
@@ -662,7 +777,7 @@
         <div class="notif-banner passable">
           <div class="notif-banner-icon passable"><i class="fas fa-road"></i></div>
           <div class="notif-banner-text" onclick="navigateTo('alert-passable')" style="cursor:pointer">
-            <h4>Easy-Go – Road Passable</h4>
+            <h4>Tara-Go! – Road Passable</h4>
             <p>Going to work? There's an incident but pas...</p>
           </div>
         </div>
@@ -675,7 +790,7 @@
         <div class="alert-body">
           <div class="alert-dialog passable">
             <div class="alert-dialog-icon passable"><i class="fas fa-circle-check"></i></div>
-            <h3>Easy-Go – Road Passable</h3>
+            <h3>Tara-Go! – Road Passable</h3>
             <p>Going to work? There's an incident to your usual route but the road is passable.</p>
             <div style="display:flex;gap:10px;margin-top:20px">
               <button class="alert-dialog-btn" style="flex:1;background:#f5f5f5;color:#666" onclick="navigateTo('home')">Dismiss</button>
@@ -691,7 +806,7 @@
         <div class="notif-banner danger">
           <div class="notif-banner-icon danger"><i class="fas fa-triangle-exclamation"></i></div>
           <div class="notif-banner-text" onclick="navigateTo('alert-danger')" style="cursor:pointer">
-            <h4>Easy-Go – Road Danger</h4>
+            <h4>Tara-Go! – Road Danger</h4>
             <p>Going to work? There's an incident and it is...</p>
           </div>
         </div>
@@ -704,7 +819,7 @@
         <div class="alert-body">
           <div class="alert-dialog danger">
             <div class="alert-dialog-icon danger"><i class="fas fa-circle-exclamation"></i></div>
-            <h3>Easy-Go – Road Danger</h3>
+            <h3>Tara-Go! – Road Danger</h3>
             <p>Going to work? There's an incident to your usual route and the road is not passable.</p>
             <div style="display:flex;gap:10px;margin-top:20px">
               <button class="alert-dialog-btn" style="flex:1;background:#f5f5f5;color:#666" onclick="navigateTo('home')">Dismiss</button>
@@ -726,19 +841,228 @@
         </div>
       </div>`,
 
+    "safe-zones-list": () => `
+      <div class="m-screen" style="background:#f5f7f5;height:100%;display:flex;flex-direction:column;position:relative">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <button onclick="navigateTo('planner')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-arrow-left"></i></button>
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Nearby (within 1km)</span>
+              <h1 style="margin-top:0;color:#fff;font-size:1.4rem">All Safe Zones</h1>
+            </div>
+          </div>
+        </div>
+        
+        <div style="flex:1;overflow-y:auto;padding:20px;padding-bottom:100px;scrollbar-width:none">
+          <div style="font-size:.75rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">Parking Locations</div>
+          
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(20,184,166,0.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;flex-shrink:0"><i class="fas fa-square-parking"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">SM Megamall</h4>
+                <span style="font-weight:800;color:#111;font-size:.9rem">50 m</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Guarded • P50 Flat Rate</p>
+            </div>
+          </div>
+
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(20,184,166,0.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;flex-shrink:0"><i class="fas fa-square-parking"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Greenfield District</h4>
+                <span style="font-weight:800;color:#111;font-size:.9rem">120 m</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Open Air • Well-lit</p>
+            </div>
+          </div>
+          
+          <div style="font-size:.75rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;margin-top:24px">Safe Tambayan / Rest Areas</div>
+          
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(217,119,6,0.1);color:#d97706;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;flex-shrink:0"><i class="fas fa-store"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">7/11 EDSA Boni</h4>
+                <span style="font-weight:800;color:#111;font-size:.9rem">80 m</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">24/7 • CCTV Equipped</p>
+            </div>
+          </div>
+          
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(217,119,6,0.1);color:#d97706;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;flex-shrink:0"><i class="fas fa-mug-hot"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Starbucks Reserve</h4>
+                <span style="font-weight:800;color:#111;font-size:.9rem">150 m</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Closes at 12AM • Indoor</p>
+            </div>
+          </div>
+
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(217,119,6,0.1);color:#d97706;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;flex-shrink:0"><i class="fas fa-building-shield"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Barangay Hall Sec. 2</h4>
+                <span style="font-weight:800;color:#111;font-size:.9rem">210 m</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">24/7 Security • Public Restroom</p>
+            </div>
+          </div>
+        </div>
+      </div>`,
+
+    "travel-conditions": () => {
+      window.state = window.state || {};
+      const activeTab = window.state.travelTab || 'car';
+      
+      const tabs = [
+        { id: 'car', icon: 'fa-car', label: 'Car' },
+        { id: 'train', icon: 'fa-train', label: 'Train' },
+        { id: 'bike', icon: 'fa-motorcycle', label: 'Bike' },
+        { id: 'walk', icon: 'fa-person-walking', label: 'Walk' }
+      ];
+
+      const renderTab = (tab) => {
+        const isActive = activeTab === tab.id;
+        const style = isActive 
+          ? 'padding:8px 14px;border-radius:20px;background:#fff;color:var(--accent);font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:6px;border:2px solid var(--accent);box-shadow:0 4px 10px rgba(20,184,166,0.1);flex-shrink:0;cursor:pointer'
+          : 'padding:9px 15px;border-radius:20px;background:#fff;color:#555;font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;border:1px solid #ddd;flex-shrink:0;cursor:pointer;transition:all 0.2s';
+        const hoverClass = isActive ? '' : 'hover-green';
+        return `<div class="${hoverClass}" style="${style}" onclick="window.state.travelTab='${tab.id}';navigateTo('travel-conditions', false)"><i class="fas ${tab.icon}"></i> ${tab.label}</div>`;
+      };
+
+      const routesData = {
+        car: `
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-route"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Via EDSA</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">25 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Fastest Route • Moderate Traffic • 10.1 km</p>
+            </div>
+          </div>
+          
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-route"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Via C5 Road</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">32 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Alternate • Heavy Traffic • 12.3 km</p>
+            </div>
+          </div>
+
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-route"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Via Skyway</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">18 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Toll Required (₱150) • Clear • 11.5 km</p>
+            </div>
+          </div>`,
+        train: `
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-train-subway"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">MRT-3 to Ayala</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">35 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Fastest • High Crowds • Includes 10m walk</p>
+            </div>
+          </div>
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-bus"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">EDSA Carousel Bus</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">50 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Moderate Crowds • ₱35 Fare</p>
+            </div>
+          </div>`,
+        bike: `
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-motorcycle"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Via Service Road</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">28 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Bike Lane Available • 9.8 km</p>
+            </div>
+          </div>
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-motorcycle"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Inner Streets</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">34 min</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Safer • Mixed Traffic • 11.2 km</p>
+            </div>
+          </div>`,
+        walk: `
+          <div class="gray-container hover-green" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;border:1px solid transparent;cursor:pointer;transition:all 0.2s" onclick="navigateTo('routes-nav')">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-right:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-shrink:0"><i class="fas fa-person-walking"></i></div>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <h4 style="margin:0;font-size:1.05rem;color:#111">Direct Path</h4>
+                <span style="font-weight:800;color:#111;font-size:1.1rem">1h 45m</span>
+              </div>
+              <p style="margin:0;font-size:.8rem;color:#555">Good weather • Flat terrain • 8.5 km</p>
+            </div>
+          </div>`
+      };
+
+      return `
+      <div class="m-screen" style="background:#f5f7f5;height:100%;display:flex;flex-direction:column;position:relative">
+        <div style="flex-shrink:0;position:relative;z-index:10">
+          <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;padding-right:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
+            <button onclick="navigateTo('planner')" style="background:none;border:none;font-size:1.4rem;color:#fff;cursor:pointer;padding:4px"><i class="fas fa-arrow-left"></i></button>
+            <div style="flex:1">
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Manila → Makati</span>
+              <h1 style="margin-top:0;color:#fff;font-size:1.4rem">Travel Options</h1>
+            </div>
+          </div>
+        </div>
+        
+        <div style="flex:1;overflow-y:auto;padding-top:20px;padding-bottom:100px;scrollbar-width:none">
+          <div style="display:flex;gap:8px;padding:0 20px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none;">
+            ${tabs.map(renderTab).join('')}
+          </div>
+          
+          <div style="padding:0 20px;font-size:.75rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">Alternative Routes (${tabs.find(t => t.id === activeTab).label})</div>
+          
+          <div style="padding:0 20px">
+            ${routesData[activeTab]}
+          </div>
+        </div>
+      </div>`;
+    },
+
     planner: () => `
       <div class="m-screen" style="background:#f5f7f5;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative">
         <div style="flex-shrink:0;position:relative;z-index:10">
           <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <div style="flex:1">
-              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Tara-Go!..</span>
               <h1 style="margin-top:0;color:#fff">Planner</h1>
             </div>
           </div>
           <div class="gray-container" style="margin:-20px 16px 8px;padding:18px;border-radius:16px;position:relative;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <div style="font-size:.7rem;font-weight:700;color:var(--accent2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px">Quick Travel Check</div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><input class="m-input" placeholder="From..." style="flex:1;padding:10px 12px;font-size:.82rem"><button style="background:none;border:none;color:var(--accent);cursor:pointer;padding:4px;font-size:1rem;" title="Swap Locations"><i class="fas fa-right-left"></i></button><input class="m-input" placeholder="To..." style="flex:1;padding:10px 12px;font-size:.82rem"></div>
-            <button class="m-btn m-btn-primary" style="margin:0;width:100%;padding:12px;font-size:.85rem">Check Conditions <i class="fas fa-magnifying-glass" style="margin-left:4px"></i></button>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><input class="m-input" placeholder="From..." style="flex:1;padding:10px 12px;font-size:.82rem"><button style="background:none;border:none;color:var(--accent);cursor:pointer;padding:4px;font-size:1rem;" title="Swap Locations"><i class="fas fa-right-left"></i></button><input class="m-input" placeholder="To..." style="flex:1;padding:10px 12px;font-size:.82rem"></div>
+            <button class="m-btn m-btn-primary" style="margin:0;width:100%;padding:12px;font-size:.85rem" onclick="navigateTo('travel-conditions')">Check Conditions <i class="fas fa-magnifying-glass" style="margin-left:4px"></i></button>
           </div>
           <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-top:0px;">Smart Commute Dashboard</div>
           <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;scrollbar-width:none">
@@ -756,6 +1080,26 @@
               <div style="color:var(--accent);font-size:1.5rem;margin-bottom:6px"><i class="fas fa-car-side"></i></div>
               <div style="font-size:.8rem;font-weight:700;color:#111">Sedan Cleared</div>
               <div style="font-size:.65rem;color:#888">No deep floods</div>
+            </div>
+          </div>
+          <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center">
+            <span>Safe Zones (50m-100m)</span>
+            <span style="color:var(--accent);cursor:pointer;text-transform:none;font-weight:600" onclick="navigateTo('safe-zones-list')">See all <i class="fas fa-chevron-right" style="font-size:.6rem;margin-left:2px"></i></span>
+          </div>
+          <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;scrollbar-width:none">
+            <div class="gray-container hover-green" style="min-width:160px;padding:12px;border-radius:12px;border:1.5px solid #14b8a6;background:rgba(20,184,166,0.05);display:flex;align-items:center;gap:10px">
+               <div style="color:var(--accent);font-size:1.5rem;width:30px;text-align:center"><i class="fas fa-square-parking"></i></div>
+               <div>
+                 <div style="font-size:.8rem;font-weight:700;color:#111">SM Megamall</div>
+                 <div style="font-size:.6rem;color:#666">50m • Safe Parking</div>
+               </div>
+            </div>
+            <div class="gray-container hover-green" style="min-width:160px;padding:12px;border-radius:12px;border:1px solid #ddd;display:flex;align-items:center;gap:10px">
+               <div style="color:#d97706;font-size:1.5rem;width:30px;text-align:center"><i class="fas fa-store"></i></div>
+               <div>
+                 <div style="font-size:.8rem;font-weight:700;color:#111">7/11 EDSA</div>
+                 <div style="font-size:.6rem;color:#666">80m • Safe Tambayan</div>
+               </div>
             </div>
           </div>
           <div style="padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Top Live Routes</div>
@@ -785,7 +1129,7 @@
           <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <div style="width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);flex-shrink:0"><i class="fas fa-robot"></i></div>
             <div style="flex:1">
-              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Tara-Go!..</span>
               <h1 style="margin-top:0;color:#fff">AI Assistant</h1>
             </div>
           </div>
@@ -819,7 +1163,7 @@
         <div style="flex-shrink:0">
           <div style="background:linear-gradient(135deg,var(--accent),var(--accent2));padding-bottom:30px;display:flex;align-items:flex-start;gap:12px;margin-top:-54px;padding-top:70px;padding-left:16px;color:#fff;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)">
             <div style="flex:1">
-              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Easy-Go..</span>
+              <span class="greeting-sub" style="color:rgba(255,255,255,0.8)">Tara-Go!..</span>
               <h1 style="margin-top:0;color:#fff">Profile</h1>
             </div>
           </div>
@@ -832,7 +1176,17 @@
           <h2 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:#111;margin-top:8px">John Dela Cruz</h2>
           <p style="font-size:.75rem;color:#888">Premium Commuter • Member since 2024</p>
         </div>
-        <div style="flex-shrink:0;padding:20px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+        <div style="flex-shrink:0;padding:20px 20px 8px;display:flex;align-items:center">
+          <span style="font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">My Points</span>
+        </div>
+        <div style="padding:0 16px 12px;">
+          <div class="gray-container hover-green" style="padding:14px 16px;border-radius:12px;border:1.5px solid transparent;display:flex;align-items:center;gap:12px;transition:all 0.2s;cursor:pointer;" onclick="navigateTo('my-points')">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(252,211,77,0.2);display:flex;align-items:center;justify-content:center;color:#f59e0b;font-size:1.1rem;"><i class="fas fa-star"></i></div>
+            <div style="flex:1"><div style="font-size:.9rem;font-weight:700;color:#111">500 pts</div><div style="font-size:.7rem;color:#888">Total Points Accumulated</div></div>
+            <i class="fas fa-chevron-right" style="color:#ccc;font-size:.8rem"></i>
+          </div>
+        </div>
+        <div style="flex-shrink:0;padding:8px 20px 8px;display:flex;justify-content:space-between;align-items:center">
           <span style="font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Registered Vehicles</span>
           <span style="font-size:.75rem;color:var(--accent);cursor:pointer" onclick="navigateTo('vehicle')">Change Profiling</span>
         </div>
@@ -880,6 +1234,42 @@
 
   // State
   let currentIndex = 0;
+  
+  window.communityPosts = window.communityPosts || [
+    { title: "Clean road improvements on Main St", author: "@user123", time: "2h ago", likes: 24, comments: 8, img: "assets/community1.png" },
+    { title: "Pothole reported on Elm Avenue", author: "@driver456", time: "5h ago", likes: 41, comments: 15, img: "assets/community2.png" }
+  ];
+
+  window.submitReport = function() {
+    const typeEl = document.getElementById("incidentType");
+    const locEl = document.getElementById("incidentLoc");
+    if (!typeEl || !locEl) return navigateTo('community');
+    
+    let type = typeEl.value;
+    const loc = locEl.value;
+    
+    if (type === "Custom") {
+      const customTypeEl = document.getElementById("customIncidentText");
+      if (customTypeEl && customTypeEl.value.trim() !== "") {
+        type = customTypeEl.value.trim();
+      } else {
+        type = "Custom Incident";
+      }
+    }
+
+    const finalType = type === "Type of Incident" ? "Incident" : type;
+    const finalLoc = loc === "Current Location" ? "Current Location" : loc;
+    
+    window.communityPosts.unshift({
+      title: `${finalType} at ${finalLoc}`,
+      author: "@you",
+      time: "Just now",
+      likes: 0,
+      comments: 0,
+      img: "assets/community2.png"
+    });
+    navigateTo('report-success');
+  };
 
   // DOM refs
   const phoneScreen = document.getElementById("phoneScreen");
@@ -967,9 +1357,9 @@
   }
 
   // Navigation
-  window.navigateTo = function (id) {
+  window.navigateTo = function (id, animate = true) {
     const idx = screens.findIndex(s => s.id === id);
-    if (idx !== -1) renderScreen(idx);
+    if (idx !== -1) renderScreen(idx, animate);
   };
 
   // Nav buttons

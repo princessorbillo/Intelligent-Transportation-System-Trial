@@ -1276,7 +1276,7 @@
     if (!post) return;
     window.state = window.state || {};
     window.state.commentPostIndex = postIndex;
-    window.state.commentFilter = window.state.commentFilter || 'all';
+    window.state.commentFilter = 'all';
     window.renderCommentsPopup(postIndex, true);
   };
 
@@ -1383,9 +1383,12 @@
 
     const commentsHTML = window.buildCommentHTML(comments, postIndex);
 
+    const bgAnim = isNewOpen ? 'animation:fadeInBg .3s ease' : '';
+    const boxAnim = isNewOpen ? 'animation:slideUpModal .3s ease' : '';
+
     const innerContent = `
-      <div onclick="window.closePopup('commentsPopup')" style="flex-shrink:0;height:15%;background:rgba(0,0,0,0.4);animation:fadeInBg .3s ease"></div>
-      <div style="flex:1;background:#fff;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:slideUpModal .3s ease">
+      <div onclick="window.closePopup('commentsPopup')" style="flex-shrink:0;height:15%;background:rgba(0,0,0,0.4);${bgAnim}"></div>
+      <div style="flex:1;background:#fff;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;${boxAnim}">
         <div style="padding:16px 20px 0;flex-shrink:0">
           <div style="width:40px;height:4px;background:#ddd;border-radius:4px;margin:0 auto 12px"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">

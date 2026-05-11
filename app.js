@@ -153,8 +153,8 @@
     },
     {
       id: "profile", name: "Profile",
-      desc: "User profile showing registered vehicles, favorite locations, and account details.",
-      components: ["Profile Header", "Vehicle List", "Favorite Locations", "Add Vehicle"],
+      desc: "User profile showing registered vehicles, saved locations, and account details.",
+      components: ["Profile Header", "Vehicle List", "Saved Locations", "Add Vehicle"],
       interactions: ["Add Vehicle → Vehicle Form", "Edit Location → Map"],
       flow: ["Home", "Profile", "Settings"]
     },
@@ -273,7 +273,7 @@
         { name: "Ana Reyes", score: 1920 }
       ];
       const posClass = (i) => i === 0 ? "gold" : i === 1 ? "silver" : "bronze";
-      
+
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       // Sync date and time to PH time (Asia/Manila)
       const phTimeString = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
@@ -329,7 +329,7 @@
         </div>
 
         <div style="padding:8px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Community Feed</div>
-        ${window.communityPosts ? window.communityPosts.slice(0,2).map(p => `
+        ${window.communityPosts ? window.communityPosts.slice(0, 2).map(p => `
         <div class="community-post gray-container">
           <img src="${p.img}" alt="Community Post" class="community-post-img">
           <div class="community-post-body">
@@ -522,7 +522,7 @@
       </div>`,
 
     "report-success": () => {
-      setTimeout(() => { if(currentIndex === screens.findIndex(s=>s.id==="report-success")) navigateTo('home'); }, 3000);
+      setTimeout(() => { if (currentIndex === screens.findIndex(s => s.id === "report-success")) navigateTo('home'); }, 3000);
       return `
       <div class="m-screen" style="background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;">
         <div style="width:100px;height:100px;background:rgba(20,184,166,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:3rem;margin-bottom:24px;box-shadow:0 0 30px rgba(20,184,166,0.2)">
@@ -686,7 +686,7 @@
           <div class="ranking-list">
             ${users.map((u, i) => `
               <div class="ranking-item gray-container" style="padding:16px;border-radius:16px;margin-bottom:12px;display:flex;align-items:center;background:${u.name === 'You' ? 'rgba(20, 184, 166, 0.1)' : '#fff'};border:${u.name === 'You' ? '2px solid var(--accent)' : 'none'};box-shadow:0 4px 10px rgba(0,0,0,0.02)">
-                <div class="ranking-pos ${posClass(i)}" style="width:30px;height:30px;font-size:.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;font-weight:700;${i>2 && u.name !== 'You' ? 'background:#f0f0f0;color:#888;' : ''}${u.name === 'You' ? 'background:var(--accent);color:#fff;' : ''}">${u.name === 'You' ? '42' : i + 1}</div>
+                <div class="ranking-pos ${posClass(i)}" style="width:30px;height:30px;font-size:.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;font-weight:700;${i > 2 && u.name !== 'You' ? 'background:#f0f0f0;color:#888;' : ''}${u.name === 'You' ? 'background:var(--accent);color:#fff;' : ''}">${u.name === 'You' ? '42' : i + 1}</div>
                 <div class="ranking-info" style="flex:1">
                   <h4 style="margin:0;font-size:1rem;color:#111">${u.name}</h4>
                   ${i < 3 ? '<span style="font-size:.7rem;color:var(--accent2);font-weight:600"><i class="fas fa-medal"></i> Top Contributor</span>' : ''}
@@ -918,7 +918,7 @@
     "travel-conditions": () => {
       window.state = window.state || {};
       const activeTab = window.state.travelTab || 'car';
-      
+
       const tabs = [
         { id: 'car', icon: 'fa-car', label: 'Car' },
         { id: 'train', icon: 'fa-train', label: 'Train' },
@@ -928,7 +928,7 @@
 
       const renderTab = (tab) => {
         const isActive = activeTab === tab.id;
-        const style = isActive 
+        const style = isActive
           ? 'padding:8px 14px;border-radius:20px;background:#fff;color:var(--accent);font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:6px;border:2px solid var(--accent);box-shadow:0 4px 10px rgba(20,184,166,0.1);flex-shrink:0;cursor:pointer'
           : 'padding:9px 15px;border-radius:20px;background:#fff;color:#555;font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;border:1px solid #ddd;flex-shrink:0;cursor:pointer;transition:all 0.2s';
         const hoverClass = isActive ? '' : 'hover-green';
@@ -1203,7 +1203,7 @@
           </div>
           <div style="text-align:center;padding:8px;font-size:.8rem;color:var(--accent2);cursor:pointer;flex-shrink:0;" onclick="navigateTo('vehicle')">+ Add New Vehicle</div>
         </div>
-        <div style="flex-shrink:0;padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Favorite Locations</div>
+        <div style="flex-shrink:0;padding:16px 20px 8px;font-size:.7rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase">Saved Locations</div>
         <div style="flex:1;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;min-height:0;">
           <div style="margin:0 16px 8px;padding:14px 16px;border-radius:12px;border:1.5px solid transparent;display:flex;align-items:center;gap:12px;transition:all 0.2s;cursor:pointer;flex-shrink:0;" class="gray-container hover-green">
             <div style="width:32px;height:32px;border-radius:8px;background:rgba(20,184,166,0.15);display:flex;align-items:center;justify-content:center;color:var(--accent2)"><i class="fas fa-location-dot"></i></div>
@@ -1234,23 +1234,27 @@
 
   // State
   let currentIndex = 0;
-  
+
   window.communityPosts = window.communityPosts || [
-    { title: "Clean road improvements on Main St", author: "@user123", time: "2h ago", likes: 24, liked: false, img: "assets/community1.png", commentsData: [
-      { author: "@commuter88", text: "Finally! This road was terrible before.", time: "1h ago", likes: 5, liked: false, replies: [] },
-      { author: "@driver007", text: "Can confirm, much smoother drive now.", time: "1h ago", likes: 3, liked: false, replies: [] },
-      { author: "@pedestrian22", text: "Hope they add bike lanes too!", time: "45m ago", likes: 8, liked: false, replies: [] },
-      { author: "@trafficwatch", text: "Great improvement. Less congestion observed.", time: "30m ago", likes: 2, liked: false, replies: [] }
-    ]},
-    { title: "Pothole reported on Elm Avenue", author: "@driver456", time: "5h ago", likes: 41, liked: false, img: "assets/community2.png", commentsData: [
-      { author: "@motoRider99", text: "Almost hit this pothole last night. Very dangerous!", time: "4h ago", likes: 12, liked: false, replies: [] },
-      { author: "@safeRoads", text: "Reported to DPWH already. Hoping for quick fix.", time: "3h ago", likes: 9, liked: false, replies: [] },
-      { author: "@nightOwl", text: "It's near the intersection, right? I saw cones there.", time: "2h ago", likes: 4, liked: false, replies: [] }
-    ]}
+    {
+      title: "Clean road improvements on Main St", author: "@user123", time: "2h ago", likes: 24, liked: false, img: "assets/community1.png", commentsData: [
+        { author: "@commuter88", text: "Finally! This road was terrible before.", time: "1h ago", likes: 5, liked: false, replies: [] },
+        { author: "@driver007", text: "Can confirm, much smoother drive now.", time: "1h ago", likes: 3, liked: false, replies: [] },
+        { author: "@pedestrian22", text: "Hope they add bike lanes too!", time: "45m ago", likes: 8, liked: false, replies: [] },
+        { author: "@trafficwatch", text: "Great improvement. Less congestion observed.", time: "30m ago", likes: 2, liked: false, replies: [] }
+      ]
+    },
+    {
+      title: "Pothole reported on Elm Avenue", author: "@driver456", time: "5h ago", likes: 41, liked: false, img: "assets/community2.png", commentsData: [
+        { author: "@motoRider99", text: "Almost hit this pothole last night. Very dangerous!", time: "4h ago", likes: 12, liked: false, replies: [] },
+        { author: "@safeRoads", text: "Reported to DPWH already. Hoping for quick fix.", time: "3h ago", likes: 9, liked: false, replies: [] },
+        { author: "@nightOwl", text: "It's near the intersection, right? I saw cones there.", time: "2h ago", likes: 4, liked: false, replies: [] }
+      ]
+    }
   ];
 
   // Toggle like on community post — updates DOM in-place, no scroll reset
-  window.toggleLike = function(postIndex) {
+  window.toggleLike = function (postIndex) {
     const post = window.communityPosts[postIndex];
     if (!post) return;
     post.liked = !post.liked;
@@ -1271,7 +1275,7 @@
   };
 
   // Open comments popup
-  window.openComments = function(postIndex) {
+  window.openComments = function (postIndex) {
     const post = window.communityPosts[postIndex];
     if (!post) return;
     window.state = window.state || {};
@@ -1281,7 +1285,7 @@
   };
 
   // Toggle like on a single comment
-  window.toggleCommentLike = function(postIndex, commentIndex) {
+  window.toggleCommentLike = function (postIndex, commentIndex) {
     const post = window.communityPosts[postIndex];
     if (!post || !post.commentsData || !post.commentsData[commentIndex]) return;
     const c = post.commentsData[commentIndex];
@@ -1298,7 +1302,7 @@
   };
 
   // Toggle reply on a single comment
-  window.toggleReplyBox = function(postIndex, commentIndex) {
+  window.toggleReplyBox = function (postIndex, commentIndex) {
     const existing = document.getElementById(`replyBox-${commentIndex}`);
     if (existing) { existing.remove(); return; }
     // Remove any other open reply boxes
@@ -1317,7 +1321,7 @@
   };
 
   // Submit a reply to a comment
-  window.submitReply = function(postIndex, commentIndex) {
+  window.submitReply = function (postIndex, commentIndex) {
     const input = document.getElementById(`replyInput-${commentIndex}`);
     if (!input || !input.value.trim()) return;
     const post = window.communityPosts[postIndex];
@@ -1329,13 +1333,13 @@
   };
 
   // Build comment HTML
-  window.buildCommentHTML = function(comments, postIndex) {
+  window.buildCommentHTML = function (comments, postIndex) {
     if (comments.length === 0) return '<div style="text-align:center;padding:30px 0;color:#999;font-size:.85rem">No comments yet. Be the first!</div>';
-    
+
     return comments.map((c, ci) => {
       const origIndex = post => (post.commentsData || []).indexOf(c);
       const cIdx = window.communityPosts[postIndex].commentsData.indexOf(c);
-      
+
       const repliesHTML = (c.replies && c.replies.length > 0) ? c.replies.map(r => `
         <div style="padding:8px 0 4px 20px;border-left:2px solid #eee;margin-top:4px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
@@ -1364,7 +1368,7 @@
   };
 
   // Render comments popup
-  window.renderCommentsPopup = function(postIndex, isNewOpen) {
+  window.renderCommentsPopup = function (postIndex, isNewOpen) {
     const post = window.communityPosts[postIndex];
     if (!post) return;
     const filter = (window.state && window.state.commentFilter) || 'all';
@@ -1437,7 +1441,7 @@
   };
 
   // Submit a new comment
-  window.submitComment = function(postIndex) {
+  window.submitComment = function (postIndex) {
     const input = document.getElementById('commentInput');
     if (!input || !input.value.trim()) return;
     const post = window.communityPosts[postIndex];
@@ -1456,11 +1460,11 @@
   };
 
   // Close popup helper
-  window.closePopup = function(id) {
+  window.closePopup = function (id) {
     const el = document.getElementById(id);
     if (el) el.remove();
     document.getElementById('phoneScreen').style.overflowY = 'auto';
-    
+
     // Restore Floating Action Button if it was hidden
     document.querySelectorAll('.fab-container').forEach(e => {
       e.style.opacity = '1';
@@ -1469,12 +1473,12 @@
   };
 
   // Show Toast Message
-  window.showToast = function(msg) {
+  window.showToast = function (msg) {
     const t = document.createElement('div');
     t.textContent = msg;
     t.style.cssText = 'position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px 24px;border-radius:30px;font-size:.85rem;font-weight:600;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.2);animation:slideUpModal 0.3s ease;white-space:nowrap;font-family:var(--font-base)';
     const phoneScreen = document.getElementById('phoneScreen');
-    if(phoneScreen) {
+    if (phoneScreen) {
       phoneScreen.appendChild(t);
       setTimeout(() => {
         t.style.opacity = '0';
@@ -1485,14 +1489,14 @@
   };
 
   // Open Share Popup
-  window.openSharePopup = function() {
+  window.openSharePopup = function () {
     const existing = document.getElementById('sharePopup');
     if (existing) existing.remove();
 
     const popup = document.createElement('div');
     popup.id = 'sharePopup';
     popup.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:999;display:flex;flex-direction:column;justify-content:flex-end;animation:slideUpModal .3s ease';
-    
+
     // The share options
     const options = [
       { icon: 'fa-link', label: 'Copy Link', color: '#666', bg: '#f5f5f5' },
@@ -1537,14 +1541,14 @@
     });
   };
 
-  window.submitReport = function() {
+  window.submitReport = function () {
     const typeEl = document.getElementById("incidentType");
     const locEl = document.getElementById("incidentLoc");
     if (!typeEl || !locEl) return navigateTo('community');
-    
+
     let type = typeEl.value;
     const loc = locEl.value;
-    
+
     if (type === "Custom") {
       const customTypeEl = document.getElementById("customIncidentText");
       if (customTypeEl && customTypeEl.value.trim() !== "") {
@@ -1556,7 +1560,7 @@
 
     const finalType = type === "Type of Incident" ? "Incident" : type;
     const finalLoc = loc === "Current Location" ? "Current Location" : loc;
-    
+
     window.communityPosts.unshift({
       title: `${finalType} at ${finalLoc}`,
       author: "@you",
@@ -1585,7 +1589,7 @@
     const mainTabs = ["home", "planner", "ai-chat", "profile", "routes", "community", "ranking", "my-reports", "app-report"];
     const tabBarContainer = document.getElementById("tabBarContainer");
     const fabContainer = document.getElementById("fabContainer");
-    
+
     if (tabBarContainer) {
       if (mainTabs.includes(screenId)) {
         tabBarContainer.innerHTML = tabBar(screenId);
@@ -1594,7 +1598,7 @@
         tabBarContainer.style.display = "none";
       }
     }
-    
+
     if (fabContainer) {
       if (screenId === "home" || screenId === "community" || screenId === "ranking") {
         fabContainer.innerHTML = `
